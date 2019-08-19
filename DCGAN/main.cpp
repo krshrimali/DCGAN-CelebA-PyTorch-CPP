@@ -7,6 +7,8 @@
 //
 
 #include <iostream>
+#include <torch/torch.h>
+#include <opencv2/opencv.hpp>
 
 int main(int argc, const char * argv[]) {
     // insert code here...
