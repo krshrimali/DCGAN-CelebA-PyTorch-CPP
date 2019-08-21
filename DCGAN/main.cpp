@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <torch/torch.h>
+#include "dataset.hpp"
 
 class Arguments {
 public:
@@ -40,7 +41,26 @@ public:
 };
 
 int main(int argc, const char * argv[]) {
-    Arguments args = Arguments("data/celeba", 2, 128, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
+    Arguments args = Arguments("/Users/krshrimali/Documents/krshrimali-blogs/dataset/train", 2, 128, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
     std::cout << args.batch_size << std::endl;
+    std::cout << "Data Root: " << args.dataroot;
+    std::string cats_name = args.dataroot + "/cat_test";
+    std::string dogs_name = args.dataroot + "/dog_test";
+    
+    std::vector<std::string> folders_name;
+    folders_name.push_back(cats_name);
+    folders_name.push_back(dogs_name);
+    
+    // Get paths of images and labels as int from the folder paths
+    std::pair<std::vector<std::string>, std::vector<int>> pair_images_labels = load_data_from_folder(folders_name);
+    
+    std::vector<std::string> list_images = pair_images_labels.first;
+    std::vector<int> list_labels = pair_images_labels.second;
+    
+    auto custom_dataset = CustomDataset(list_images, list_labels).map(torch::data::transforms::Normalize<>(0.5, 0.5)).map(torch::data::transforms::Stack<>());
+    
+    auto data_loader = torch::data::make_data_loader<torch::data::samplers::RandomSampler>(std::move(custom_dataset), 4);
+    
+     
     return 0;
 }
