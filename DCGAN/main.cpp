@@ -57,10 +57,9 @@ int main(int argc, const char * argv[]) {
     std::vector<std::string> list_images = pair_images_labels.first;
     std::vector<int> list_labels = pair_images_labels.second;
     
-    auto custom_dataset = CustomDataset(list_images, list_labels).map(torch::data::transforms::Normalize<>(0.5, 0.5)).map(torch::data::transforms::Stack<>());
+    auto custom_dataset = CustomDataset(list_images, list_labels, 224).map(torch::data::transforms::Normalize<>(0.5, 0.5)).map(torch::data::transforms::Stack<>());
     
     auto data_loader = torch::data::make_data_loader<torch::data::samplers::RandomSampler>(std::move(custom_dataset), 4);
-    
-     
+         
     return 0;
 }

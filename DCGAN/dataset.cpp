@@ -8,20 +8,21 @@
 
 #include "dataset.hpp"
 
-torch::Tensor read_data(std::string location) {
+torch::Tensor read_data(std::string location, int resize=224) {
     /*
      Function to return image read at location given as type torch::Tensor
      Resizes image to (224, 224, 3)
      Parameters
      ===========
      1. location (std::string type) - required to load image from the location
-     
+     2. resize (int type) - required to resize an image
+ 
      Returns
      ===========
      torch::Tensor type - image read as tensor
      */
     cv::Mat img = cv::imread(location, 1);
-    cv::resize(img, img, cv::Size(224, 224), cv::INTER_CUBIC);
+    cv::resize(img, img, cv::Size(resize, resize), cv::INTER_CUBIC);
     torch::Tensor img_tensor = torch::from_blob(img.data, {img.rows, img.cols, 3}, torch::kByte);
     img_tensor = img_tensor.permute({2, 0, 1});
     return img_tensor.clone();
@@ -42,20 +43,21 @@ torch::Tensor read_label(int label) {
     return label_tensor.clone();
 }
 
-std::vector<torch::Tensor> process_images(std::vector<std::string> list_images) {
+std::vector<torch::Tensor> process_images(std::vector<std::string> list_images, int resize=224) {
     /*
      Function returns vector of tensors (images) read from the list of images in a folder
      Parameters
      ===========
      1. list_images (std::vector<std::string> type) - list of image paths in a folder to be read
-     
+     2. resize (int type) - argument for resizing each image
+ 
      Returns
      ===========
      std::vector<torch::Tensor> type - Images read as tensors
      */
     std::vector<torch::Tensor> states;
     for(std::vector<std::string>::iterator it = list_images.begin(); it != list_images.end(); ++it) {
-        torch::Tensor img = read_data(*it);
+        torch::Tensor img = read_data(*it, resize);
         states.push_back(img);
     }
     return states;
