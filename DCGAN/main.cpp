@@ -67,8 +67,13 @@ int main(int argc, const char * argv[]) {
         device = torch::kCUDA;
     }
     
-    torch::nn::Sequential netG = Generator().main_func()->to(device);
-    torch::nn::Sequential netD = Discriminator().main_func()->to(device);
+    Generator g = Generator();
+    Discriminator d = Discriminator();
+    
+    torch::nn::Sequential netG = g.main_func();
+    torch::nn::Sequential netD = d.main_func();
+    netG->to(device);
+    netD->to(device);
     
     torch::optim::Adam optimizerG(
                                            netG->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
@@ -76,12 +81,34 @@ int main(int argc, const char * argv[]) {
                                                netD->parameters(), torch::optim::AdamOptions(5e-4).beta1(0.5));
     
     for(int64_t epoch=1; epoch<=10; ++epoch) {
-        int64_t batch_size=0;
         for(torch::data::Example<>& batch: *data_loader) {
             netD->zero_grad();
-            torch::Tensor real_images = batch.data
+            torch::Tensor real_images = batch.data;
             torch::Tensor real_labels = torch::empty(batch.data.size(0)).uniform_(0.8, 1.0);
-            torch::Tensor real_output = netD->
+            torch::Tensor real_output = netD->forward(real_images);
+            torch::Tensor d_loss_real = torch::binary_cross_entropy(real_output, real_labels);
+            d_loss_real.backward();
+            
+            // Train discriminator with fake images
+            torch::Tensor noise = torch::randn({batch.data.size(0), args.nz, 1, 1});
+            torch::Tensor fake_images = netG->forward(noise);
+            torch::Tensor fake_labels = torch::zeros(batch.data.size(0));
+            torch::Tensor fake_output = netD->forward(fake_images.detach());
+            torch::Tensor d_loss_fake = torch::binary_cross_entropy(fake_output, fake_labels);
+            d_loss_fake.backward();
+            
+            torch::Tensor d_loss = d_loss_real + d_loss_fake;
+            optimizerD.step();
+            
+            // Train generator
+            netG->zero_grad();
+            fake_labels.fill_(1);
+            fake_output = netD->forward(fake_images);
+            torch::Tensor g_loss = torch::binary_cross_entropy(fake_output, fake_labels);
+            g_loss.backward();
+            optimizerG.step();
+            
+            std::cout << "Epoch: " << epoch << ", D_loss: " << d_loss.item<float>() << ", G_loss: " << g_loss.item<float>() << std::endl;
         }
     }
     return 0;
