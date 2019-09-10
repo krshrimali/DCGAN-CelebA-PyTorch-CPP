@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <torch/torch.h>
+#include "network.hpp"
 #include "dataset.hpp"
 
 class Arguments {
@@ -41,15 +42,15 @@ public:
 };
 
 int main(int argc, const char * argv[]) {
-    Arguments args = Arguments("/Users/krshrimali/Documents/krshrimali-blogs/dataset/train", 2, 128, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
+    Arguments args = Arguments("data/celeba", 2, 128, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
     std::cout << args.batch_size << std::endl;
     std::cout << "Data Root: " << args.dataroot;
-    std::string cats_name = args.dataroot + "/cat_test";
-    std::string dogs_name = args.dataroot + "/dog_test";
+    std::string images_name = args.dataroot + "/img_align_celeba";
+//    std::string dogs_name = args.dataroot + "/dog_test";
     
     std::vector<std::string> folders_name;
-    folders_name.push_back(cats_name);
-    folders_name.push_back(dogs_name);
+    folders_name.push_back(images_name);
+//    folders_name.push_back(dogs_name);
     
     // Get paths of images and labels as int from the folder paths
     std::pair<std::vector<std::string>, std::vector<int>> pair_images_labels = load_data_from_folder(folders_name);
@@ -59,7 +60,29 @@ int main(int argc, const char * argv[]) {
     
     auto custom_dataset = CustomDataset(list_images, list_labels, 224).map(torch::data::transforms::Normalize<>(0.5, 0.5)).map(torch::data::transforms::Stack<>());
     
-    auto data_loader = torch::data::make_data_loader<torch::data::samplers::RandomSampler>(std::move(custom_dataset), 4);
-         
+    auto data_loader = torch::data::make_data_loader<torch::data::samplers::RandomSampler>(std::move(custom_dataset), args.batch_size);
+    
+    torch::Device device = torch::kCPU;
+    if(torch::cuda::is_available()) {
+        device = torch::kCUDA;
+    }
+    
+    torch::nn::Sequential netG = Generator().main_func()->to(device);
+    torch::nn::Sequential netD = Discriminator().main_func()->to(device);
+    
+    torch::optim::Adam optimizerG(
+                                           netG->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
+    torch::optim::Adam optimizerD(
+                                               netD->parameters(), torch::optim::AdamOptions(5e-4).beta1(0.5));
+    
+    for(int64_t epoch=1; epoch<=10; ++epoch) {
+        int64_t batch_size=0;
+        for(torch::data::Example<>& batch: *data_loader) {
+            netD->zero_grad();
+            torch::Tensor real_images = batch.data
+            torch::Tensor real_labels = torch::empty(batch.data.size(0)).uniform_(0.8, 1.0);
+            torch::Tensor real_output = netD->
+        }
+    }
     return 0;
 }
