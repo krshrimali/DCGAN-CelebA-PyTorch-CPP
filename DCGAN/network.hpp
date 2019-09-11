@@ -73,10 +73,10 @@ public:
         return main;
     }
     
-    // Forward function
-    torch::Tensor forward(torch::Tensor input) {
-        return main(input);
-    }
+//    // Forward function
+//    torch::Tensor forward(torch::Tensor input) {
+//        return main(input);
+//    }
 };
 
 class Discriminator : public torch::nn::Module {
@@ -141,10 +141,10 @@ public:
         return main;
     }
     
-    // Forward function
-    torch::Tensor forward(torch::Tensor input) {
-        return main(input);
-    }
+//    // Forward function
+//    torch::Tensor forward(torch::Tensor input) {
+//        return main(input);
+//    }
 };
 
 #endif /* network_hpp */
