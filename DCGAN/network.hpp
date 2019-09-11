@@ -94,6 +94,7 @@ private:
     float beta1;
     int ngpu;
 public:
+    torch::nn::Sequential main;
     Discriminator(std::string dataroot_ = "data/celeba", int workers_ = 2, int batch_size_ = 128, int image_size_ = 64, int nc_ = 3, int nz_ = 100, int ngf_ = 64, int ndf_ = 64, int num_epochs_ = 5, float lr_ = 0.0002, float beta1_ = 0.5, int ngpu_ = 1) {
         
         dataroot = dataroot_;
@@ -109,7 +110,7 @@ public:
         beta1 = beta1_;
         ngpu = ngpu_;
         
-        torch::nn::Sequential main = torch::nn::Sequential(
+        main = torch::nn::Sequential(
                                                            torch::nn::Conv2d(torch::nn::Conv2dOptions(nc, ndf, 4).stride(2).padding(1).with_bias(false)),
                                                            torch::nn::Functional(torch::leaky_relu, 0.2),
                                                            
@@ -128,7 +129,7 @@ public:
                                                            
                                                            torch::nn::BatchNorm(ndf*8),
                                                            
-                                                           torch::nnFunctional(torch::leaky_relu, 0.2),
+                                                           torch::nn::Functional(torch::leaky_relu, 0.2),
                                                            
                                                            torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*8, 1, 4).stride(1).padding(0).with_bias(false)),
                                                            
