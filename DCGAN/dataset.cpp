@@ -23,7 +23,7 @@ torch::Tensor read_data(std::string location, int resize=224) {
      */
     cv::Mat img = cv::imread(location, 1);
     cv::resize(img, img, cv::Size(resize, resize), cv::INTER_CUBIC);
-    torch::Tensor img_tensor = torch::from_blob(img.data, {img.rows, img.cols, 3}, torch::kByte);
+    torch::Tensor img_tensor = torch::from_blob(img.data, {img.rows, img.cols, 3}, torch::kFloat);
     img_tensor = img_tensor.permute({2, 0, 1});
     return img_tensor.clone();
 }
@@ -56,7 +56,7 @@ std::vector<torch::Tensor> process_images(std::vector<std::string> list_images, 
      std::vector<torch::Tensor> type - Images read as tensors
      */
     std::vector<torch::Tensor> states;
-    for(std::vector<std::string>::iterator it = list_images.begin(); it != list_images.end(); ++it) {
+    for(auto it = list_images.begin(); it != list_images.end(); ++it) {
         torch::Tensor img = read_data(*it, resize);
         states.push_back(img);
     }
@@ -75,7 +75,7 @@ std::vector<torch::Tensor> process_labels(std::vector<int> list_labels) {
      std::vector<torch::Tensor> type - returns vector of tensors (labels)
      */
     std::vector<torch::Tensor> labels;
-    for(std::vector<int>::iterator it = list_labels.begin(); it != list_labels.end(); ++it) {
+    for(auto it = list_labels.begin(); it != list_labels.end(); ++it) {
         torch::Tensor label = read_label(*it);
         labels.push_back(label);
     }

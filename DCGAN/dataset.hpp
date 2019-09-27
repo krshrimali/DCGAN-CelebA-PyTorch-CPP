@@ -17,13 +17,13 @@
 
 // Function to return image read at location given as type torch::Tensor
 // Resizes image to (224, 224, 3)
-torch::Tensor read_data(std::string location, int resize=224);
+torch::Tensor read_data(std::string location, int resize);
 
 // Function to return label from int (0, 1 for binary and 0, 1, ..., n-1 for n-class classification) as type torch::Tensor
 torch::Tensor read_label(int label);
 
 // Function returns vector of tensors (images) read from the list of images in a folder
-std::vector<torch::Tensor> process_images(std::vector<std::string> list_images, int resize=224);
+std::vector<torch::Tensor> process_images(std::vector<std::string> list_images, int resize);
 
 // Function returns vector of tensors (labels) read from the list of labels
 std::vector<torch::Tensor> process_labels(std::vector<int> list_labels);
