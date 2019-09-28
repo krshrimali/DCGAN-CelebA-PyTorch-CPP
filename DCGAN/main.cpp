@@ -79,7 +79,9 @@ int main(int argc, const char * argv[]) {
     torch::optim::Adam optimizerD(
                                                netD->parameters(), torch::optim::AdamOptions(5e-4).beta1(0.5));
     
+    int printEveryCheckpoint = 2;
     for(int64_t epoch=1; epoch<=10; ++epoch) {
+        int64_t batch_index=0;
         for(torch::data::Example<>& batch: *data_loader) {
             netD->zero_grad();
             torch::Tensor real_images = batch.data.to(device);
@@ -108,13 +110,16 @@ int main(int argc, const char * argv[]) {
             optimizerG.step();
             
             std::cout << "Epoch: " << epoch << ", D_loss: " << d_loss.item<float>() << ", G_loss: " << g_loss.item<float>() << std::endl;
-	    torch::save(netG, "generator-checkpoint.pt");
-	    torch::save(optimizerG, "generator-optimizer-checkpoint.pt");
-            torch::save(netD, "discriminator-checkpoint.pt");
-	    torch::save(optimizerD, "discriminator-optimizer-checkpoint.pt");
-	    
-            torch::Tensor samples = netG->forward(torch::randn({4, 100, 1, 1}, device));
-	    torch::save((samples + 1.0) / 2.0, torch::str("dcgan-sample-", 3, ".pt"));
+            batch_index++;
+            // check point for every 2 batch_size
+            if(batch_index % printEveryCheckpoint == 0) {
+    	       torch::save(netG, "generator-checkpoint.pt");
+    	       torch::save(optimizerG, "generator-optimizer-checkpoint.pt");
+               torch::save(netD, "discriminator-checkpoint.pt");
+    	       torch::save(optimizerD, "discriminator-optimizer-checkpoint.pt");
+               torch::Tensor samples = netG->forward(torch::randn({4, 100, 1, 1}, device));
+    	       torch::save((samples + 1.0) / 2.0, torch::str("dcgan-sample-", 3, ".pt"));
+           }
         }
     }
     return 0;
