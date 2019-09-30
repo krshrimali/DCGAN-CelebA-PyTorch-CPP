@@ -43,7 +43,7 @@ public:
 
 int main(int argc, const char * argv[]) {
     // dataroot, workers, batch_size, image_size, nc, nz, ngf, ndf, num_epochs, lr, beta1, ngpu
-    Arguments args = Arguments("/home/ubuntu/dcgan/celebA", 2, 128, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
+    Arguments args = Arguments("/home/ubuntu/dcgan/celebA", 2, 128, 64, 3, 100, 128, 128, 5, 0.0002, 0.5, 1);
     std::string images_name = args.dataroot + "/img_align_celeba";
     
     std::vector<std::string> folders_name;
