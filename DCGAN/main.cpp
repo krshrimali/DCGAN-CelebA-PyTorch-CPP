@@ -87,7 +87,7 @@ int main(int argc, const char * argv[]) {
             torch::Tensor real_images = batch.data.to(device);
             torch::Tensor real_labels = torch::empty(batch.data.size(0), device).uniform_(0.8, 1.0);
             torch::Tensor real_output = netD->forward(real_images);
-            torch::Tensor d_loss_real = torch::binary_cross_entropy(real_output, real_labels);
+            torch::Tensor d_loss_real = torch::binary_cross_entropy_with_logits(real_output, real_labels);
             d_loss_real.backward();
             
             // Train discriminator with fake images
@@ -95,7 +95,7 @@ int main(int argc, const char * argv[]) {
             torch::Tensor fake_images = netG->forward(noise);
             torch::Tensor fake_labels = torch::zeros(batch.data.size(0), device);
             torch::Tensor fake_output = netD->forward(fake_images.detach());
-            torch::Tensor d_loss_fake = torch::binary_cross_entropy(fake_output, fake_labels);
+            torch::Tensor d_loss_fake = torch::binary_cross_entropy_with_logits(fake_output, fake_labels);
             d_loss_fake.backward();
             
             torch::Tensor d_loss = d_loss_real + d_loss_fake;
