@@ -111,13 +111,13 @@ int main(int argc, const char * argv[]) {
             
             std::cout << "Epoch: " << epoch << ", D_loss: " << d_loss.item<float>() << ", G_loss: " << g_loss.item<float>() << std::endl;
             batch_index++;
-            // check point for every 2 batch_size
+            // check point for every 2 batches
             if(batch_index % printEveryCheckpoint == 0) {
     	       torch::save(netG, "generator-checkpoint.pt");
     	       torch::save(optimizerG, "generator-optimizer-checkpoint.pt");
                torch::save(netD, "discriminator-checkpoint.pt");
     	       torch::save(optimizerD, "discriminator-optimizer-checkpoint.pt");
-               torch::Tensor samples = netG->forward(torch::randn({4, 100, 1, 1}, device));
+               torch::Tensor samples = netG->forward(torch::randn({1, 100, 1, 1}, device));
     	       torch::save((samples + 1.0) / 2.0, torch::str("dcgan-sample-", 3, ".pt"));
            }
         }
