@@ -105,7 +105,7 @@ int main(int argc, const char * argv[]) {
             netG->zero_grad();
             fake_labels.fill_(1);
             fake_output = netD->forward(fake_images);
-            torch::Tensor g_loss = torch::binary_cross_entropy(fake_output, fake_labels);
+            torch::Tensor g_loss = torch::binary_cross_entropy_with_logits(fake_output, fake_labels);
             g_loss.backward();
             optimizerG.step();
             

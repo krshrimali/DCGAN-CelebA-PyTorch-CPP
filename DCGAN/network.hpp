@@ -36,7 +36,7 @@ private:
     int ngpu;
 public:
     torch::nn::Sequential main;
-    Generator(std::string dataroot_ = "data/celeba", int workers_ = 2, int batch_size_ = 128, int image_size_ = 64, int nc_ = 3, int nz_ = 100, int ngf_ = 64, int ndf_ = 64, int num_epochs_ = 5, float lr_ = 0.0002, float beta1_ = 0.5, int ngpu_ = 1) {
+    Generator(std::string dataroot_ = "data/celeba", int workers_ = 2, int batch_size_ = 128, int image_size_ = 64, int nc_ = 3, int nz_ = 100, int ngf_ = 128, int ndf_ = 128, int num_epochs_ = 5, float lr_ = 0.0002, float beta1_ = 0.5, int ngpu_ = 1) {
         
         dataroot = dataroot_;
         workers = workers_;
@@ -52,20 +52,20 @@ public:
         ngpu = ngpu_;
         
         main = torch::nn::Sequential(
-                                   torch::nn::Conv2d(torch::nn::Conv2dOptions(nz, ngf*8, 4).stride(1).padding(0).with_bias(false).transposed(true)),
-                                     torch::nn::BatchNorm(ngf*8),
-                                     torch::nn::Functional(torch::relu),
-                                     torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*8, ngf*4, 4).stride(2).padding(1).with_bias(false).transposed(true)),
-                                     torch::nn::BatchNorm(ngf*4),
-                                     torch::nn::Functional(torch::relu),
-                                     torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*4, ngf*2, 4).stride(2).padding(1).with_bias(false).transposed(true)),
-                                     torch::nn::BatchNorm(ngf*2),
-                                     torch::nn::Functional(torch::relu),
-                                     torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*2, ngf, 4).stride(2).padding(1).with_bias(false).transposed(true)),
-                                     torch::nn::BatchNorm(ngf),
-                                     torch::nn::Functional(torch::relu),
-                                     torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf, nc, 4).stride(2).padding(1).with_bias(false).transposed(true)),
-                                     torch::nn::Functional(torch::tanh)
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(nz, ngf*8, 4).stride(1).padding(0).with_bias(false).transposed(true)),
+                                    torch::nn::BatchNorm(ngf*8),
+                                    torch::nn::Functional(torch::relu),
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*8, ngf*4, 4).stride(2).padding(1).with_bias(false).transposed(true)),
+                                    torch::nn::BatchNorm(ngf*4),
+                                    torch::nn::Functional(torch::relu),
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*4, ngf*2, 4).stride(2).padding(1).with_bias(false).transposed(true)),
+                                    torch::nn::BatchNorm(ngf*2),
+                                    torch::nn::Functional(torch::relu),
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*2, ngf, 4).stride(2).padding(1).with_bias(false).transposed(true)),
+                                    torch::nn::BatchNorm(ngf),
+                                    torch::nn::Functional(torch::relu),
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf, nc, 4).stride(2).padding(1).with_bias(false).transposed(true)),
+                                    torch::nn::Functional(torch::tanh)
         );
     }
     
@@ -95,7 +95,7 @@ private:
     int ngpu;
 public:
     torch::nn::Sequential main;
-    Discriminator(std::string dataroot_ = "data/celeba", int workers_ = 2, int batch_size_ = 128, int image_size_ = 64, int nc_ = 3, int nz_ = 100, int ngf_ = 64, int ndf_ = 64, int num_epochs_ = 5, float lr_ = 0.0002, float beta1_ = 0.5, int ngpu_ = 1) {
+    Discriminator(std::string dataroot_ = "data/celeba", int workers_ = 2, int batch_size_ = 128, int image_size_ = 64, int nc_ = 3, int nz_ = 100, int ngf_ = 128, int ndf_ = 128, int num_epochs_ = 5, float lr_ = 0.0002, float beta1_ = 0.5, int ngpu_ = 1) {
         
         dataroot = dataroot_;
         workers = workers_;
@@ -111,30 +111,19 @@ public:
         ngpu = ngpu_;
         
         main = torch::nn::Sequential(
-                                                           torch::nn::Conv2d(torch::nn::Conv2dOptions(nc, ndf, 4).stride(2).padding(1).with_bias(false)),
-                                                           torch::nn::Functional(torch::leaky_relu, 0.2),
-                                                           
-                                                           torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf, ndf*2, 4).stride(2).padding(1).with_bias(false)),
-                                                           
-                                                           torch::nn::BatchNorm(ndf*2),
-                                                           
-                                                           torch::nn::Functional(torch::leaky_relu, 0.2),
-                                                           
-                                                           torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*2, ndf*4, 4).stride(2).padding(1).with_bias(false)),
-                                                           
-                                                           torch::nn::BatchNorm(ndf*4),
-                                                           
-                                                           torch::nn::Functional(torch::leaky_relu, 0.2),
-                                                           torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*4, ndf*8, 4).stride(2).padding(1).with_bias(false)),
-                                                           
-                                                           torch::nn::BatchNorm(ndf*8),
-                                                           
-                                                           torch::nn::Functional(torch::leaky_relu, 0.2),
-                                                           
-                                                           torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*8, 1, 4).stride(1).padding(0).with_bias(false)),
-                                                           
-                                                           torch::nn::Functional(torch::sigmoid)
-                                                           );
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(nc, ndf, 4).stride(2).padding(1).with_bias(false)),
+                                    torch::nn::Functional(torch::leaky_relu, 0.2),
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf, ndf*2, 4).stride(2).padding(1).with_bias(false)),
+                                    torch::nn::BatchNorm(ndf*2),
+                                    torch::nn::Functional(torch::leaky_relu, 0.2),
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*2, ndf*4, 4).stride(2).padding(1).with_bias(false)),
+                                    torch::nn::BatchNorm(ndf*4),
+                                    torch::nn::Functional(torch::leaky_relu, 0.2),
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*4, ndf*8, 4).stride(2).padding(1).with_bias(false)),
+                                    torch::nn::BatchNorm(ndf*8),
+                                    torch::nn::Functional(torch::leaky_relu, 0.2),
+                                    torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*8, 1, 4).stride(1).padding(0).with_bias(false))
+        );
     }
     
     torch::nn::Sequential main_func() {
