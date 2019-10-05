@@ -88,11 +88,11 @@ int main(int argc, const char * argv[]) {
             torch::Tensor real_labels = torch::empty(batch.data.size(0), device).uniform_(0.8, 1.0);
             torch::Tensor real_output = netD->forward(real_images);
             real_output = real_output.reshape(real_labels.sizes());
-            std::cout << real_output.sizes() << std::endl;
-            std::cout << real_labels.sizes() << std::endl;
+            // std::cout << real_output.sizes() << std::endl;
+            // std::cout << real_labels.sizes() << std::endl;
             // std::cout << torch::tanh(real_output).sizes() << std::endl;
             torch::Tensor d_loss_real = torch::binary_cross_entropy_with_logits(real_output, real_labels);
-            std::cout << "Calculated d_loss_real" << std::endl;
+            // std::cout << "Calculated d_loss_real" << std::endl;
             // std::cout << d_loss_real[0] << std::endl;
             d_loss_real.backward();
             // std::cout << "Backward of d_loss_real done." << std::endl;
@@ -104,9 +104,9 @@ int main(int argc, const char * argv[]) {
             torch::Tensor fake_output = netD->forward(fake_images.detach());
             fake_output = fake_output.reshape(fake_labels.sizes());
             torch::Tensor d_loss_fake = torch::binary_cross_entropy_with_logits(fake_output, fake_labels);
-            std::cout << "Calculated d_loss_fake\n";
+            // std::cout << "Calculated d_loss_fake\n";
             d_loss_fake.backward();
-            std::cout << "Backward of d_loss_fake done.\n";
+            // std::cout << "Backward of d_loss_fake done.\n";
             
             torch::Tensor d_loss = d_loss_real + d_loss_fake;
             optimizerD.step();
@@ -117,9 +117,9 @@ int main(int argc, const char * argv[]) {
             fake_output = netD->forward(fake_images);
             fake_output = fake_output.reshape(fake_labels.sizes());
             torch::Tensor g_loss = torch::binary_cross_entropy_with_logits(fake_output, fake_labels);
-            std::cout << "Calculated g_loss\n";
+            // std::cout << "Calculated g_loss\n";
             g_loss.backward();
-            std::cout << "Backward of g_loss done.\n";
+            // std::cout << "Backward of g_loss done.\n";
             optimizerG.step();
             
             std::cout << "Epoch: " << epoch << ", D_loss: " << d_loss.item<float>() << ", G_loss: " << g_loss.item<float>() << std::endl;
