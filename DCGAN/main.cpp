@@ -43,7 +43,7 @@ public:
 
 int main(int argc, const char * argv[]) {
     // dataroot, workers, batch_size, image_size, nc, nz, ngf, ndf, num_epochs, lr, beta1, ngpu
-    Arguments args = Arguments("/home/ubuntu/dcgan/celebA", 2, 128, 64, 3, 100, 128, 128, 5, 0.0002, 0.5, 1);
+    Arguments args = Arguments("/home/ubuntu/dcgan/celebA", 2, 128, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
     std::string images_name = args.dataroot + "/img_align_celeba";
     
     std::vector<std::string> folders_name;
@@ -55,8 +55,8 @@ int main(int argc, const char * argv[]) {
     std::vector<int> list_labels = pair_images_labels.second;
     
     // Originally 224 size, resize to 64 instead 
-    auto custom_dataset = CustomDataset(list_images, list_labels, 64).map(torch::data::transforms::Normalize<>({0.5, 0.5, 0.5}, {0.5, 0.5, 0.5})).map(torch::data::transforms::Stack<>());
-        
+    auto custom_dataset = CustomDataset(list_images, list_labels, 224).map(torch::data::transforms::Normalize<>({0.5, 0.5, 0.5}, {0.5, 0.5, 0.5})).map(torch::data::transforms::Stack<>());
+
     auto data_loader = torch::data::make_data_loader<torch::data::samplers::RandomSampler>(std::move(custom_dataset), args.batch_size);
     std::cout << "Data Loader made" << std::endl; 
     
@@ -77,7 +77,7 @@ int main(int argc, const char * argv[]) {
     torch::optim::Adam optimizerG(
                                            netG->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
     torch::optim::Adam optimizerD(
-                                               netD->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
+                                               netD->parameters(), torch::optim::AdamOptions(5e-4).beta1(0.5));
     
     int printEveryCheckpoint = 2;
     for(int64_t epoch=1; epoch<=10; ++epoch) {

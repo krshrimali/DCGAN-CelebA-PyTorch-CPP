@@ -52,7 +52,7 @@ public:
         ngpu = ngpu_;
         
         main = torch::nn::Sequential(
-            torch::nn::Conv2d(torch::nn::Conv2dOptions(100, ngf*8, 4).with_bias(false).transposed(true)),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(100, ngf*8, 4).stride(1).padding(0).with_bias(false).transposed(true)),
             torch::nn::BatchNorm(ngf*8),
             torch::nn::Functional(torch::relu),
             torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*8, ngf*4, 4).stride(2).padding(1).with_bias(false).transposed(true)),
@@ -125,7 +125,7 @@ public:
         ngpu = ngpu_;
         
         main = torch::nn::Sequential(
-            torch::nn::Conv2d(torch::nn::Conv2dOptions(3, ndf, 4).stride(2).with_bias(false)),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(3, ndf, 4).stride(2).padding(1).with_bias(false)),
             torch::nn::Functional(torch::leaky_relu, 0.2),
             torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf, ndf*2, 4).stride(2).padding(1).with_bias(false)),
             torch::nn::BatchNorm(ndf*2),
