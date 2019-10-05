@@ -88,7 +88,9 @@ int main(int argc, const char * argv[]) {
             torch::Tensor real_labels = torch::empty(batch.data.size(0), device).uniform_(0.8, 1.0);
             torch::Tensor real_output = netD->forward(real_images);
             torch::Tensor d_loss_real = torch::binary_cross_entropy_with_logits(real_output, real_labels);
+            std::cout << "Calculated d_loss_real" << std::endl;
             d_loss_real.backward();
+            std::cout << "Backward of d_loss_real done." << std::endl;
             
             // Train discriminator with fake images
             torch::Tensor noise = torch::randn({batch.data.size(0), args.nz, 1, 1}, device);
@@ -96,7 +98,9 @@ int main(int argc, const char * argv[]) {
             torch::Tensor fake_labels = torch::zeros(batch.data.size(0), device);
             torch::Tensor fake_output = netD->forward(fake_images.detach());
             torch::Tensor d_loss_fake = torch::binary_cross_entropy_with_logits(fake_output, fake_labels);
+            std::cout << "Calculated d_loss_fake\n";
             d_loss_fake.backward();
+            std::cout << "Backward of d_loss_fake done.\n";
             
             torch::Tensor d_loss = d_loss_real + d_loss_fake;
             optimizerD.step();
@@ -106,7 +110,9 @@ int main(int argc, const char * argv[]) {
             fake_labels.fill_(1);
             fake_output = netD->forward(fake_images);
             torch::Tensor g_loss = torch::binary_cross_entropy_with_logits(fake_output, fake_labels);
+            std::cout << "Calculated g_loss\n";
             g_loss.backward();
+            std::cout << "Backward of g_loss done.\n";
             optimizerG.step();
             
             std::cout << "Epoch: " << epoch << ", D_loss: " << d_loss.item<float>() << ", G_loss: " << g_loss.item<float>() << std::endl;
