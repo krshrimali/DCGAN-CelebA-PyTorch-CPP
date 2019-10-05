@@ -77,7 +77,7 @@ int main(int argc, const char * argv[]) {
     torch::optim::Adam optimizerG(
                                            netG->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
     torch::optim::Adam optimizerD(
-                                               netD->parameters(), torch::optim::AdamOptions(5e-4).beta1(0.5));
+                                               netD->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
     
     int printEveryCheckpoint = 2;
     for(int64_t epoch=1; epoch<=10; ++epoch) {
@@ -93,7 +93,7 @@ int main(int argc, const char * argv[]) {
             // std::cout << torch::tanh(real_output).sizes() << std::endl;
             torch::Tensor d_loss_real = torch::binary_cross_entropy_with_logits(real_output, real_labels);
             // std::cout << "Calculated d_loss_real" << std::endl;
-            std::cout << d_loss_real[0] << std::endl;
+            // std::cout << d_loss_real[0] << std::endl;
             d_loss_real.backward();
             // std::cout << "Backward of d_loss_real done." << std::endl;
             
