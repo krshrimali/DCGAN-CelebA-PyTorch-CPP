@@ -88,6 +88,7 @@ int main(int argc, const char * argv[]) {
             torch::Tensor real_labels = torch::empty(batch.data.size(0), device).uniform_(0.8, 1.0);
             torch::Tensor real_output = netD->forward(real_images);
             std::cout << real_output.sizes() << std::endl;
+            std::cout << torch::tanh(real_output).sizes() << std::endl;
             torch::Tensor d_loss_real = torch::binary_cross_entropy_with_logits(real_output, real_labels);
             std::cout << "Calculated d_loss_real" << std::endl;
             d_loss_real.backward();
