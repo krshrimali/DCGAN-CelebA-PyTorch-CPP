@@ -58,7 +58,7 @@ public:
             torch::nn::Conv2d(torch::nn::Conv2dOptions(256, 128, 3).stride(2).padding(1).with_bias(false).transposed(true)),
             torch::nn::BatchNorm(128),
             torch::nn::Functional(torch::relu),
-            torch::nn::Conv2d(torch::nn::Conv2dOptions(128, 64, 4).stride(2).padding(1).with_bias(false).transposes(true)),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(128, 64, 4).stride(2).padding(1).with_bias(false).transposed(true)),
             torch::nn::BatchNorm(64),
             torch::nn::Functional(torch::relu),
             torch::nn::Conv2d(torch::nn::Conv2dOptions(64, 3, 4).stride(2).padding(1).with_bias(false).transposed(true)),
@@ -131,7 +131,7 @@ public:
             torch::nn::BatchNorm(256),
             torch::nn::Functional(torch::leaky_relu, 0.2),
             torch::nn::Conv2d(torch::nn::Conv2dOptions(256, 1, 3).stride(1).padding(0).with_bias(false))
-        )
+        );
         // main = torch::nn::Sequential(
         //                             torch::nn::Conv2d(torch::nn::Conv2dOptions(nc, ndf, 4).stride(2).padding(1).with_bias(false)),
         //                             torch::nn::Functional(torch::leaky_relu, 0.2),
