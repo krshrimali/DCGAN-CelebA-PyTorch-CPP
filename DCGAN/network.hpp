@@ -136,8 +136,8 @@ public:
             torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*4, ndf*8, 4).stride(2).padding(1).with_bias(false)),
             torch::nn::BatchNorm(ndf*8),
             torch::nn::Functional(torch::leaky_relu, 0.2),
-            torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*8, 1, 4).stride(1).padding(0).with_bias(false)),
-            torch::nn::Functional(torch::sigmoid)
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*8, 1, 4).stride(1).padding(0).with_bias(false))
+            // torch::nn::Functional(torch::sigmoid)
         );
         // main = torch::nn::Sequential(
         //                             torch::nn::Conv2d(torch::nn::Conv2dOptions(nc, ndf, 4).stride(2).padding(1).with_bias(false)),
