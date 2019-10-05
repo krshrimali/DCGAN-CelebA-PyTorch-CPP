@@ -91,7 +91,7 @@ int main(int argc, const char * argv[]) {
             // std::cout << real_output.sizes() << std::endl;
             // std::cout << real_labels.sizes() << std::endl;
             // std::cout << torch::tanh(real_output).sizes() << std::endl;
-            torch::Tensor d_loss_real = torch::binary_cross(real_output, real_labels);
+            torch::Tensor d_loss_real = torch::binary_cross_entropy(real_output, real_labels);
             // std::cout << "Calculated d_loss_real" << std::endl;
             // std::cout << d_loss_real[0] << std::endl;
             d_loss_real.backward();
