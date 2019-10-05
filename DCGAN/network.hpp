@@ -95,7 +95,7 @@ private:
     int ngpu;
 public:
     torch::nn::Sequential main;
-    Discriminator(std::string dataroot_ = "data/celeba", int workers_ = 2, int batch_size_ = 128, int image_size_ = 64, int nc_ = 3, int nz_ = 100, int ngf_ = 128, int ndf_ = 128, int num_epochs_ = 5, float lr_ = 0.0002, float beta1_ = 0.5, int ngpu_ = 1) {
+    Discriminator(std::string dataroot_ = "data/celeba", int workers_ = 2, int batch_size_ = 64, int image_size_ = 64, int nc_ = 3, int nz_ = 100, int ngf_ = 128, int ndf_ = 128, int num_epochs_ = 10, float lr_ = 0.0002, float beta1_ = 0.5, int ngpu_ = 1) {
         
         dataroot = dataroot_;
         workers = workers_;
