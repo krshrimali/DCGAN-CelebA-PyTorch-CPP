@@ -43,7 +43,7 @@ public:
 
 int main(int argc, const char * argv[]) {
     // dataroot, workers, batch_size, image_size, nc, nz, ngf, ndf, num_epochs, lr, beta1, ngpu
-    Arguments args = Arguments("/home/ubuntu/dcgan/celebA", 2, 64, 64, 3, 100, 128, 128, 5, 0.0002, 0.5, 1);
+    Arguments args = Arguments("/home/ubuntu/dcgan/celebA", 2, 128, 64, 3, 100, 128, 128, 5, 0.0002, 0.5, 1);
     std::string images_name = args.dataroot + "/img_align_celeba";
     
     std::vector<std::string> folders_name;
@@ -55,8 +55,8 @@ int main(int argc, const char * argv[]) {
     std::vector<int> list_labels = pair_images_labels.second;
     
     // Originally 224 size, resize to 64 instead 
-    auto custom_dataset = CustomDataset(list_images, list_labels, 64).map(torch::data::transforms::Normalize<>(0.5, 0.5)).map(torch::data::transforms::Stack<>());
-    
+    auto custom_dataset = CustomDataset(list_images, list_labels, 64).map(torch::data::transforms::Normalize<>({0.5, 0.5, 0.5}, {0.5, 0.5, 0.5})).map(torch::data::transforms::Stack<>());
+        
     auto data_loader = torch::data::make_data_loader<torch::data::samplers::RandomSampler>(std::move(custom_dataset), args.batch_size);
     std::cout << "Data Loader made" << std::endl; 
     
