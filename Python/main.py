@@ -23,7 +23,7 @@ class Arguments:
                     self.workers, self.batch_size, self.image_size, self.nc, self.nz, self.ngf, self.ndf, self.num_epochs, self.lr, self.beta1, self.ngpu)
 
 class Generator(torch.nn.Module):
-    def __init__(self, ngpu, Arguments args):
+    def __init__(self, ngpu, args):
         super(Generator, self).__init__()
         self.ngpu = ngpu
         nz = args.nz
@@ -53,7 +53,7 @@ class Generator(torch.nn.Module):
             output = self.main(input)
     
 class Discriminator(torch.nn.Module):        
-    def __init__(self, ngpu, Arguments args):
+    def __init__(self, ngpu, args):
         super(Discriminator, self).__init__()
         self.ngpu = ngpu
         nc = args.nc
