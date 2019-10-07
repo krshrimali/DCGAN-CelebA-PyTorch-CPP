@@ -27,7 +27,7 @@ class Generator(torch.nn.Module):
         super(Generator, self).__init__()
         self.ngpu = ngpu
         self.main = torch.nn.Sequential(
-            torch.nn.ConvTranspose2d(nz, ngf*8, 4, 1, 0, bias=False)
+            torch.nn.ConvTranspose2d(nz, ngf*8, 4, 1, 0, bias=False),
             torch.nn.BatchNorm2d(ngf*8),
             torch.nn.ReLU(True),
             torch.nn.ConvTranspose2d(ngf*8, ngf*4, 4, 2, 1, bias=False),
