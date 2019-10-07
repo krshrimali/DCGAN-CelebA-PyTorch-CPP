@@ -92,7 +92,7 @@ if __name__ == "__main__":
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=args.batch_size,
                                          shuffle=True, num_workers=int(args.workers))
 
-    device = torch.device("cuda:0" if opt.cuda else "cpu")
+    device = torch.device("cuda:0")
 
     ngpu = int(args.ngpu)
     nz = int(args.nz)
@@ -140,23 +140,23 @@ if __name__ == "__main__":
             optimizerD.step()
 
             netG.zero_grad()
-        label.fill_(real_label)  # fake labels are real for generator cost
-        output = netD(fake)
-        errG = criterion(output, label)
-        errG.backward()
-        D_G_z2 = output.mean().item()
-        optimizerG.step()
+            label.fill_(real_label)  # fake labels are real for generator cost
+            output = netD(fake)
+            errG = criterion(output, label)
+            errG.backward()
+            D_G_z2 = output.mean().item()
+            optimizerG.step()
 
-        print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
-              % (epoch, opt.niter, i, len(dataloader),
-                 errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
-        if i % 100 == 0:
-            vutils.save_image(real_cpu,
-                    '%s/real_samples.png' % opt.outf,
-                    normalize=True)
-            fake = netG(fixed_noise)
-            vutils.save_image(fake.detach(),
-                    '%s/fake_samples_epoch_%03d.png' % (opt.outf, epoch),
-                    normalize=True)
+            print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
+                % (epoch, args.num_epochs, i, len(dataloader),
+                    errD.item(), errG.item(), D_x, D_G_z1, D_G_z2))
+            if i % 100 == 0:
+                vutils.save_image(real_cpu,
+                        'outputs/real_samples.png',
+                        normalize=True)
+                fake = netG(fixed_noise)
+                vutils.save_image(fake.detach(),
+                        'outputs/fake_samples_epoch_%03d.png' % (epoch),
+                        normalize=True)
 
     
