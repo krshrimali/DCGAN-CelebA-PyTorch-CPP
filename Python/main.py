@@ -23,9 +23,12 @@ class Arguments:
                     self.workers, self.batch_size, self.image_size, self.nc, self.nz, self.ngf, self.ndf, self.num_epochs, self.lr, self.beta1, self.ngpu)
 
 class Generator(torch.nn.Module):
-    def __init__(self, ngpu):
+    def __init__(self, ngpu, Arguments args):
         super(Generator, self).__init__()
         self.ngpu = ngpu
+        nz = args.nz
+        ngf = args.ngf
+        nc = args.nc
         self.main = torch.nn.Sequential(
             torch.nn.ConvTranspose2d(nz, ngf*8, 4, 1, 0, bias=False),
             torch.nn.BatchNorm2d(ngf*8),
@@ -50,9 +53,11 @@ class Generator(torch.nn.Module):
             output = self.main(input)
     
 class Discriminator(torch.nn.Module):        
-    def __init__(self, ngpu):
+    def __init__(self, ngpu, Arguments args):
         super(Discriminator, self).__init__()
         self.ngpu = ngpu
+        nc = args.nc
+        ndf = args.ndf
         self.main = torch.nn.Sequential(
             torch.nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
             torch.nn.LeakyReLU(0.2, inplace=True),
@@ -99,11 +104,11 @@ if __name__ == "__main__":
     ngf = int(args.ngf)
     ndf = int(args.ndf)
 
-    netG = Generator(ngpu).to(device)
+    netG = Generator(ngpu, args).to(device)
     netG.apply(weights_init)
     print(netG)
 
-    netD = Discriminator(ngpu).to(device)
+    netD = Discriminator(ngpu, args).to(device)
     netD.apply(weights_init)
     print(netD)
 
