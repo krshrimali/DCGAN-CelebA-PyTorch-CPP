@@ -76,7 +76,7 @@ class Discriminator(torch.nn.Module):
         return output.view(-1, 1).squeeze(1)
 
 if __name__ == "__main__":
-    args = Arguments("/home/ubuntu/dcgan/celebA/img_align_celeba", 2, 64, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1)
+    args = Arguments("/home/ubuntu/dcgan/celebA/", 2, 64, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1)
     print(args)
 
     dataset = dset.ImageFolder(root = args.dataroot,
