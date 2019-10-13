@@ -59,7 +59,8 @@ class Generator(torch.nn.Module):
             output = torch.nn.parallel.data_parallel(self.main, input, range(self.ngpu))
         else:
             output = self.main(input)
-    
+        return output
+        
 class Discriminator(torch.nn.Module):        
     def __init__(self, ngpu, args):
         super(Discriminator, self).__init__()
