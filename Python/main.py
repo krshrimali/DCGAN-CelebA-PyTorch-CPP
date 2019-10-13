@@ -1,6 +1,7 @@
 import torch
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
+import torchvision.utils as vutils
 
 def weights_init(m):
     classname = m.__class__.__name__
