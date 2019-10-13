@@ -44,7 +44,7 @@ public:
 int ngf = 100;
 int ndf = 64;
 
-torch::nn:Sequential netG(
+torch::nn::Sequential netG(
             torch::nn::Conv2d(torch::nn::Conv2dOptions(100, ngf*8, 4).stride(1).padding(0).with_bias(false).transposed(true)),
             torch::nn::BatchNorm(ngf*8),
             torch::nn::Functional(torch::relu),
