@@ -69,8 +69,8 @@ int main(int argc, const char * argv[]) {
     Generator g = Generator();
     Discriminator d = Discriminator();
     
-    torch::nn::Sequential netG = g.main_func();
-    torch::nn::Sequential netD = d.main_func();
+    torch::nn::Sequential netG = g.main;
+    torch::nn::Sequential netD = d.main;
     netG->to(device);
     netD->to(device);
     
