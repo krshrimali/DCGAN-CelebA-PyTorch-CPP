@@ -91,7 +91,7 @@ int main(int argc, const char * argv[]) {
             // std::cout << real_output.sizes() << std::endl;
             // std::cout << real_labels.sizes() << std::endl;
             // std::cout << torch::tanh(real_output).sizes() << std::endl;
-            torch::Tensor d_loss_real = torch::binary_cross_entropy_with_logits(real_output, real_labels);
+            torch::Tensor d_loss_real = torch::binary_cross_entropy(real_output, real_labels);
             // std::cout << "Calculated d_loss_real" << std::endl;
             // std::cout << d_loss_real[0] << std::endl;
             d_loss_real.backward();
@@ -103,7 +103,7 @@ int main(int argc, const char * argv[]) {
             torch::Tensor fake_labels = torch::zeros(batch.data.size(0), device);
             torch::Tensor fake_output = netD->forward(fake_images.detach());
             fake_output = fake_output.reshape(fake_labels.sizes());
-            torch::Tensor d_loss_fake = torch::binary_cross_entropy_with_logits(fake_output, fake_labels);
+            torch::Tensor d_loss_fake = torch::binary_cross_entropy(fake_output, fake_labels);
             // std::cout << "Calculated d_loss_fake\n";
             d_loss_fake.backward();
             // std::cout << "Backward of d_loss_fake done.\n";
@@ -116,7 +116,7 @@ int main(int argc, const char * argv[]) {
             fake_labels.fill_(1);
             fake_output = netD->forward(fake_images);
             fake_output = fake_output.reshape(fake_labels.sizes());
-            torch::Tensor g_loss = torch::binary_cross_entropy_with_logits(fake_output, fake_labels);
+            torch::Tensor g_loss = torch::binary_cross_entropy(fake_output, fake_labels);
             // std::cout << "Calculated g_loss\n";
             g_loss.backward();
             // std::cout << "Backward of g_loss done.\n";
