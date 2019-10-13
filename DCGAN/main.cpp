@@ -125,6 +125,7 @@ int main(int argc, const char * argv[]) {
             torch::Tensor real_labels = torch::full(batch.data.size(0), 1, device);
             torch::Tensor real_output = netD->forward(real_images);
             torch::clamp(real_output, 0, 1);
+            torch::clamp(real_labels, 0, 1);
 
             // real_output = real_output.reshape(real_labels.sizes());
             // std::cout << real_output.sizes() << std::endl;
