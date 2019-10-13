@@ -41,6 +41,42 @@ public:
     };
 };
 
+int ngf = 100;
+int ndf = 64;
+
+torch::nn:Sequential netG(
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(100, ngf*8, 4).stride(1).padding(0).with_bias(false).transposed(true)),
+            torch::nn::BatchNorm(ngf*8),
+            torch::nn::Functional(torch::relu),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*8, ngf*4, 4).stride(2).padding(1).with_bias(false).transposed(true)),
+            torch::nn::BatchNorm(ngf*4),
+            torch::nn::Functional(torch::relu),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*4, ngf*2, 4).stride(2).padding(1).with_bias(false).transposed(true)),
+            torch::nn::BatchNorm(ngf*2),
+            torch::nn::Functional(torch::relu),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf*2, ngf, 4).stride(2).padding(1).with_bias(false).transposed(true)),
+            torch::nn::BatchNorm(ngf),
+            torch::nn::Functional(torch::relu),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ngf, 3, 4).stride(2).padding(1).with_bias(false).transposed(true)),
+            torch::nn::Functional(torch::tanh)
+    );
+
+torch::nn::Sequential netD(
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(3, ndf, 4).stride(2).padding(1).with_bias(false)),
+            torch::nn::Functional(torch::leaky_relu, 0.2),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf, ndf*2, 4).stride(2).padding(1).with_bias(false)),
+            torch::nn::BatchNorm(ndf*2),
+            torch::nn::Functional(torch::leaky_relu, 0.2),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*2, ndf*4, 4).stride(2).padding(1).with_bias(false)),
+            torch::nn::BatchNorm(ndf*4),
+            torch::nn::Functional(torch::leaky_relu, 0.2),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*4, ndf*8, 4).stride(2).padding(1).with_bias(false)),
+            torch::nn::BatchNorm(ndf*8),
+            torch::nn::Functional(torch::leaky_relu, 0.2),
+            torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*8, 1, 4).stride(1).padding(0).with_bias(false)),
+            torch::nn::Functional(torch::sigmoid)
+      );
+
 int main(int argc, const char * argv[]) {
     // dataroot, workers, batch_size, image_size, nc, nz, ngf, ndf, num_epochs, lr, beta1, ngpu
     Arguments args = Arguments("/home/ubuntu/dcgan/celebA", 2, 64, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
@@ -69,8 +105,8 @@ int main(int argc, const char * argv[]) {
     Generator g = Generator();
     Discriminator d = Discriminator();
     
-    torch::nn::Sequential netG = g.main;
-    torch::nn::Sequential netD = d.main;
+    // torch::nn::Sequential netG = g.main;
+    // torch::nn::Sequential netD = d.main;
     netG->to(device);
     netD->to(device);
     
