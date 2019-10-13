@@ -113,7 +113,7 @@ int main(int argc, const char * argv[]) {
     torch::optim::Adam optimizerG(
                                            netG->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
     torch::optim::Adam optimizerD(
-                                               netD->parameters(), torch::optim::AdamOptions(5e-4).beta1(0.5));
+                                               netD->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
     
     int printEveryCheckpoint = 2;
     for(int64_t epoch=1; epoch<=10; ++epoch) {
@@ -121,7 +121,8 @@ int main(int argc, const char * argv[]) {
         for(torch::data::Example<>& batch: *data_loader) {
             netD->zero_grad();
             torch::Tensor real_images = batch.data.to(device);
-            torch::Tensor real_labels = torch::empty(batch.data.size(0), device).uniform_(1.0, 1.0);
+            // torch::Tensor real_labels = torch::empty(batch.data.size(0), device).uniform_(1.0, 1.0);
+            torch::Tensor real_labels = torch::full((batch.data.size(0), ), 1, device)
             torch::Tensor real_output = netD->forward(real_images);
             // real_output = real_output.reshape(real_labels.sizes());
             // std::cout << real_output.sizes() << std::endl;
