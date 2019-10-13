@@ -63,16 +63,16 @@ torch::nn::Sequential netG(
 
 torch::nn::Sequential netD(
             torch::nn::Conv2d(torch::nn::Conv2dOptions(3, ndf, 4).stride(2).padding(1).with_bias(false)),
-            torch::nn::Functional(torch::leaky_relu, 0.2),
+            torch::nn::Functional(torch::leaky_relu, 0.2, inplace=true),
             torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf, ndf*2, 4).stride(2).padding(1).with_bias(false)),
             torch::nn::BatchNorm(ndf*2),
-            torch::nn::Functional(torch::leaky_relu, 0.2),
+            torch::nn::Functional(torch::leaky_relu, 0.2, inplace=true),
             torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*2, ndf*4, 4).stride(2).padding(1).with_bias(false)),
             torch::nn::BatchNorm(ndf*4),
-            torch::nn::Functional(torch::leaky_relu, 0.2),
+            torch::nn::Functional(torch::leaky_relu, 0.2, inplace=true),
             torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*4, ndf*8, 4).stride(2).padding(1).with_bias(false)),
             torch::nn::BatchNorm(ndf*8),
-            torch::nn::Functional(torch::leaky_relu, 0.2),
+            torch::nn::Functional(torch::leaky_relu, 0.2, inplace=true),
             torch::nn::Conv2d(torch::nn::Conv2dOptions(ndf*8, 1, 4).stride(1).padding(0).with_bias(false)),
             torch::nn::Functional(torch::sigmoid)
       );
