@@ -122,7 +122,7 @@ int main(int argc, const char * argv[]) {
             netD->zero_grad();
             torch::Tensor real_images = batch.data.to(device);
             // torch::Tensor real_labels = torch::empty(batch.data.size(0), device).uniform_(1.0, 1.0);
-            torch::Tensor real_labels = torch::full(batch.data.size(0), 1, device)
+            torch::Tensor real_labels = torch::full(batch.data.size(0), 1, device);
             torch::Tensor real_output = netD->forward(real_images);
             // real_output = real_output.reshape(real_labels.sizes());
             // std::cout << real_output.sizes() << std::endl;
