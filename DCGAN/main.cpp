@@ -79,7 +79,7 @@ torch::nn::Sequential netD(
 
 int main(int argc, const char * argv[]) {
     // dataroot, workers, batch_size, image_size, nc, nz, ngf, ndf, num_epochs, lr, beta1, ngpu
-    Arguments args = Arguments("/home/ubuntu/dcgan/celebA", 2, 64, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
+    Arguments args = Arguments("/home/ubuntu/dcgan/celebA/test", 2, 64, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
     std::string images_name = args.dataroot + "/img_align_celeba";
     
     std::vector<std::string> folders_name;
@@ -125,7 +125,7 @@ int main(int argc, const char * argv[]) {
             torch::Tensor real_labels = torch::full(batch.data.size(0), 1, device);
             torch::Tensor real_output = netD->forward(real_images);
             torch::clamp(real_output, 0, 1);
-            
+
             // real_output = real_output.reshape(real_labels.sizes());
             // std::cout << real_output.sizes() << std::endl;
             // std::cout << real_labels.sizes() << std::endl;
