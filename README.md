@@ -8,5 +8,6 @@ DCGAN Implementation using PyTorch in both C++ and Python
 
 ## TODOs:
 
-1. Update blogs
-2. Add animations and outputs to the README file
+1. Update existing blog
+2. Write new blog: Share results and what has changed in Libtorch API
+333Add animations and outputs to the README file
