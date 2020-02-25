@@ -46,7 +46,7 @@ int ngf = 64;
 int ndf = 64;
 
   torch::nn::Sequential netG(
-      ConvTranspose2dWrapper(torch::nn::ConvTranspose2dOptions(100, ngf*8, 4).stride(1).padding(0).bias(false)),
+      ConvTranspose2dWrapper(torch::nn::ConvTranspose2dOptions(300, ngf*8, 4).stride(1).padding(0).bias(false)),
       torch::nn::BatchNorm(ngf*8),
       torch::nn::Functional(torch::relu),
       ConvTranspose2dWrapper(torch::nn::ConvTranspose2dOptions(ngf*8, ngf*4, 4).stride(2).padding(1).bias(false)),
@@ -80,7 +80,7 @@ int ndf = 64;
 
   int main(int argc, const char * argv[]) {
     // dataroot, workers, batch_size, image_size, nc, nz, ngf, ndf, num_epochs, lr, beta1, ngpu
-    Arguments args = Arguments("/home/kshrimali/Documents/github-io/DCGAN/DCGAN-PyTorch-Python-CPP/DCGAN/data", 2, 64, 64, 3, 100, 64, 64, 5, 0.0002, 0.5, 1);
+    Arguments args = Arguments("/home/kshrimali/Documents/DCGAN-cuda/dcgan-libtorch/data", 2, 64, 64, 3, 300, 64, 64, 5, 0.001, 0.5, 1);
     std::string images_name = args.dataroot + "/train";
 
     std::vector<std::string> folders_name;
@@ -116,7 +116,7 @@ int ndf = 64;
         netD->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
 
     int printEveryCheckpoint = 10;
-    bool restoreFromCheckpoint = true; // set to false if you don't want to restore from checkpoint saved earlier
+    bool restoreFromCheckpoint = false; // set to false if you don't want to restore from checkpoint saved earlier
     if(restoreFromCheckpoint) {
       std::cout << "restoring from checkpoint..." << std::endl;
       torch::load(netG, "generator-checkpoint.pt");
@@ -127,7 +127,8 @@ int ndf = 64;
     }
   
     int64_t checkpoint_counter = 1;
-    for(int64_t epoch=1; epoch<=100; ++epoch) {
+    auto options = torch::TensorOptions().device(device).requires_grad(false);
+    for(int64_t epoch=1; epoch<=50; ++epoch) {
       int64_t batch_index=0;
       for(torch::data::Example<>& batch: *data_loader) {
         netD->zero_grad();
@@ -162,12 +163,12 @@ int ndf = 64;
         batch_index++;
         // check point for every printEveryCheckpoint batches
         if(batch_index % printEveryCheckpoint == 0) {
-          torch::save(netG, "generator-checkpoint.pt");
-          torch::save(optimizerG, "generator-optimizer-checkpoint.pt");
-          torch::save(netD, "discriminator-checkpoint.pt");
-          torch::save(optimizerD, "discriminator-optimizer-checkpoint.pt");
-          torch::Tensor samples = netG->forward(torch::randn({10, args.nz, 1, 1}, device));
-          torch::save((samples + 1.0) / 2.0, torch::str("dcgan-sample-", ++checkpoint_counter, ".pt"));
+          torch::save(netG, "color/generator-checkpoint.pt");
+          torch::save(optimizerG, "color/generator-optimizer-checkpoint.pt");
+          torch::save(netD, "color/discriminator-checkpoint.pt");
+          torch::save(optimizerD, "color/discriminator-optimizer-checkpoint.pt");
+          torch::Tensor samples = netG->forward(torch::randn({64, args.nz, 1, 1}, options));
+          torch::save(samples, torch::str("color/dcgan-sample-", ++checkpoint_counter, ".pt"));
 	  std::cout << "\n-> checkpoint " << ++checkpoint_counter << "\n";
         }
       }
