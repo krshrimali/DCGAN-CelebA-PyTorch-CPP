@@ -2,26 +2,24 @@ import argparse
 import matplotlib.pyplot as plt
 import torch
 import cv2
+import numpy as np
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-i", "--sample-file", required=True)
-parser.add_argument("-o", "--out-file", default="out.png")
-parser.add_argument("-d", "--dimension", type=int, default=3)
-options = parser.parse_args()
+j = 0
+for i in range(2, 1591, 10):
+    filename = "build/color/dcgan-sample-" + str(i) + ".pt"
+    module = torch.jit.load(filename)
+    images = list(module.parameters())[0]
 
-module = torch.jit.load(options.sample_file)
-images = list(module.parameters())[0]
-
-print(images)
-for index in range(options.dimension * options.dimension):
-	image = images[index].detach().cpu().reshape(64, 64, 2).mul(255).to(torch.uint8)
-	array = image.numpy()
-	cv2.imwrite("out-" + str(index) + ".png", array)
-	'''
-	axis = plt.subplot(options.dimension, options.dimension, 1+index)
-	plt.imshow(array, cmap="gray")
-	axis.get_xaxis().set_visible(False)
-	axis.get_yaxis().set_visible(False)
-	'''
-# plt.savefig(options.out_file)
-print("Saved ", options.out_file)
+    for index in range(64):
+        # image = images[index].detach().cpu().reshape(64, 64, 3).mul(255).to(torch.uint8)
+        image = images[index].detach().cpu().mul(255).to(torch.uint8).numpy()
+        array = np.transpose(image, (1, 2, 0))
+        array = cv2.cvtColor(array, cv2.COLOR_RGB2BGR)
+        # cv2.imwrite("out-" + str(index) + ".png", array)
+        axis = plt.subplot(8, 8, 1+index)
+        plt.imshow(array)
+        axis.get_xaxis().set_visible(False)
+        axis.get_yaxis().set_visible(False)
+    plt.savefig("output/color_cuda/out_" + str(j) + ".png")
+    print("Saved ", "output/color_cuda/out_" + str(j) + ".png")
+    j += 1
