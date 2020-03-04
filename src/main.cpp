@@ -10,7 +10,6 @@
 #include <torch/torch.h>
 #include "network.hpp"
 #include "dataset.hpp"
-#include "utils.hpp"
 
 class Arguments {
   public:
@@ -81,7 +80,7 @@ int ndf = 64;
   int main(int argc, const char * argv[]) {
     // dataroot, workers, batch_size, image_size, nc, nz, ngf, ndf, num_epochs, lr, beta1, ngpu
     Arguments args = Arguments("/home/kshrimali/Documents/DCGAN-cuda/dcgan-libtorch/data", 2, 64, 64, 3, 300, 64, 64, 5, 0.001, 0.5, 1);
-    std::string images_name = args.dataroot + "/train";
+    std::string images_name = args.dataroot + "/test";
 
     std::vector<std::string> folders_name;
     folders_name.push_back(images_name);
@@ -116,7 +115,7 @@ int ndf = 64;
         netD->parameters(), torch::optim::AdamOptions(2e-4).beta1(0.5));
 
     int printEveryCheckpoint = 10;
-    bool restoreFromCheckpoint = false; // set to true if you want to restore from checkpoint saved earlier
+    bool restoreFromCheckpoint = false; // set to false if you don't want to restore from checkpoint saved earlier
     if(restoreFromCheckpoint) {
       std::cout << "restoring from checkpoint..." << std::endl;
       torch::load(netG, "generator-checkpoint.pt");
@@ -163,12 +162,12 @@ int ndf = 64;
         batch_index++;
         // check point for every printEveryCheckpoint batches
         if(batch_index % printEveryCheckpoint == 0) {
-          torch::save(netG, "color/generator-checkpoint.pt");
-          torch::save(optimizerG, "color/generator-optimizer-checkpoint.pt");
-          torch::save(netD, "color/discriminator-checkpoint.pt");
-          torch::save(optimizerD, "color/discriminator-optimizer-checkpoint.pt");
+          torch::save(netG, "output/generator-checkpoint.pt");
+          torch::save(optimizerG, "output/generator-optimizer-checkpoint.pt");
+          torch::save(netD, "output/discriminator-checkpoint.pt");
+          torch::save(optimizerD, "output/discriminator-optimizer-checkpoint.pt");
           torch::Tensor samples = netG->forward(torch::randn({64, args.nz, 1, 1}, options));
-          torch::save(samples, torch::str("color/dcgan-sample-", ++checkpoint_counter, ".pt"));
+          torch::save(samples, torch::str("output/dcgan-sample-", ++checkpoint_counter, ".pt"));
 	  std::cout << "\n-> checkpoint " << ++checkpoint_counter << "\n";
         }
       }
