@@ -35,4 +35,10 @@ Find more about DCGAN on my blogs here:
 1. https://krshrimali.github.io/DCGAN-using-PyTorch-CPP/
 2. <to be added>  `TODO`
 
+## Results
+
+This is the output from random noise (batch of) images after ~10 epochs of training:
+
+<img src="images/dcgan-output.png"/>
+
 Happy learning!
