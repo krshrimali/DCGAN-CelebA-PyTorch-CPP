@@ -23,7 +23,7 @@ torch::Tensor read_data(std::string location, int resize=224) {
      */
     cv::Mat img = cv::imread(location, 1);
     cv::resize(img, img, cv::Size(resize, resize), cv::INTER_CUBIC);
-    torch::Tensor img_tensor = torch::from_blob(img.data, {img.rows, img.cols, 3}, torch::kFloat);
+    torch::Tensor img_tensor = torch::from_blob(img.data, {img.rows, img.cols, 3}, torch::kByte);
     img_tensor = img_tensor.permute({2, 0, 1});
     return img_tensor.clone();
 }
@@ -114,7 +114,7 @@ std::pair<std::vector<std::string>,std::vector<int>> load_data_from_folder(std::
             }
             closedir(dir);
         } else {
-            std::cout << "Could not open directory" << std::endl;
+            std::cout << "Could not open directory " << base_name.c_str() << std::endl;
             // return EXIT_FAILURE;
         }
         label += 1;
