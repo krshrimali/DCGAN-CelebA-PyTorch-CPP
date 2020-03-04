@@ -2,9 +2,9 @@
 
 DCGAN Implementation (on CelebA dataset) using PyTorch C++ Frontend API (Libtorch)
 
-- Training Code location: DCGAN/main.cpp
-- Generator and Discriminator Definition: DCGAN/network.hpp
-- Dataset Class: DCGAN/dataset.hpp and DCGAN/dataset.cpp
+- Training Code location: src/main.cpp
+- Generator and Discriminator Definition: include/network.hpp
+- Dataset Class: include/dataset.hpp and src/dataset.cpp
 - Tested on Libtorch Version: Stable 1.4.0 (cxx11 ABI) with and without CUDA (10.1), Linux
 
 How is this different from dcgan sample of PyTorch?
