@@ -18,7 +18,7 @@ Please note that this is in no way targeted to achieve a certain accuracy, but o
 
 ## Steps to Follow
 
-Note: This project requires OpenCV built from source.
+Note: This project requires OpenCV built from source. Make sure you also have Pillow (to save animation), NumPy, Matplotlib for running files in utils/ folder.
 
 1. Create a build directory: `mkdir build/`
 2. Configure your CMake: `cmake -DCMAKE_PREFIX_PATH=<absolute path to libtorch> ..`
