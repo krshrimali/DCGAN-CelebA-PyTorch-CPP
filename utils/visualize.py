@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from matplotlib.animation import PillowWriter
 import numpy as np
 import cv2
 import sys, os
@@ -11,8 +12,6 @@ if(os.path.isdir("build/output/output_images/") == False):
 
 if(os.path.isdir("build/output/output_animation/") == False):
     os.mkdir("build/output/output_animation/")
-
-# img_list = [cv2.imread("build/output/output_images/out_" + str(i) + ".png") for i in range(0, 159)]
 
 img_index = 0
 img_list = []
@@ -29,5 +28,5 @@ fig = plt.figure(figsize=(8, 8))
 ims = [[plt.imshow(i, animated=True)] for i in img_list]
 ani = animation.ArtistAnimation(fig, ims, interval=100, blit=True)
 
-# Change mencoder to PillowWriter
-ani.save("build/output/output_animation/animation.gif", writer='mencoder')
+# TODO: Check if writer=PillowWriter() works fine
+ani.save("build/output/output_animation/animation.gif", writer=PillowWriter())

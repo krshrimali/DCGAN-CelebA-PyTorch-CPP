@@ -78,7 +78,6 @@ int ndf = 64;
       );
 
   int main(int argc, const char * argv[]) {
-    // dataroot, workers, batch_size, image_size, nc, nz, ngf, ndf, num_epochs, lr, beta1, ngpu
     Arguments args = Arguments("/home/kshrimali/Documents/DCGAN-cuda/dcgan-libtorch/data", 2, 64, 64, 3, 300, 64, 64, 5, 0.001, 0.5, 1);
     std::string images_name = args.dataroot + "/test";
 
@@ -104,8 +103,6 @@ int ndf = 64;
     Generator g = Generator();
     Discriminator d = Discriminator();
 
-    // torch::nn::Sequential netG = g.main;
-    // torch::nn::Sequential netD = d.main;
     netG->to(device);
     netD->to(device);
 
@@ -133,7 +130,6 @@ int ndf = 64;
         netD->zero_grad();
         torch::Tensor real_images = batch.data.to(device);
         torch::Tensor real_labels = torch::empty(batch.data.size(0), device).uniform_(1.0, 1.0);
-        // Convert torch::tensor to cv::Mat and show the image
 
         torch::Tensor real_output = netD->forward(real_images);
         torch::Tensor d_loss_real = torch::binary_cross_entropy(real_output, real_labels);

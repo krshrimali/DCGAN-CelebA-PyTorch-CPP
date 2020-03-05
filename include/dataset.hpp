@@ -16,7 +16,6 @@
 #include <torch/script.h>
 
 // Function to return image read at location given as type torch::Tensor
-// Resizes image to (224, 224, 3)
 torch::Tensor read_data(std::string location, int resize);
 
 // Function to return label from int (0, 1 for binary and 0, 1, ..., n-1 for n-class classification) as type torch::Tensor
