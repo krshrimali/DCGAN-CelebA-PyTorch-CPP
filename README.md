@@ -33,7 +33,10 @@ Note: This project requires OpenCV built from source. Make sure you also have Pi
 
 ## Blog
 
-Find more about DCGAN on my blog here: https://krshrimali.github.io/DCGAN-using-PyTorch-CPP/
+Find more about DCGAN on my blogs here: 
+
+1. https://krshrimali.github.io/DCGAN-using-PyTorch-CPP/
+2. https://krshrimali.github.io/DCGAN-using-PyTorch-CPP-Part-2/
 
 ## Results
 
