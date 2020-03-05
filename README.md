@@ -5,7 +5,7 @@ DCGAN Implementation (on CelebA dataset) using PyTorch C++ Frontend API (Libtorc
 - Training Code location: `src/main.cpp`
 - Generator and Discriminator Definition: `include/network.hpp`
 - Dataset Class: `include/dataset.hpp` and `src/dataset.cpp`
-- Tested on Libtorch Version: Stable 1.4.0 (cxx11 ABI) with and without CUDA (10.1), Linux
+- Tested on Libtorch Version: Stable 1.4.0 (cxx11 ABI) with and without CUDA (10.1), Linux, OpenCV 4.1.0
 
 How is this different from dcgan sample of PyTorch?
 
@@ -17,6 +17,8 @@ Utility Functions (to visualize images & create animation), and architecture is 
 Please note that this is in no way targeted to achieve a certain accuracy, but only focuses on creating an example template for DCGAN using Libtorch on CelebA Dataset.
 
 ## Steps to Follow
+
+Note: This project requires OpenCV built from source.
 
 1. Create a build directory: `mkdir build/`
 2. Configure your CMake: `cmake -DCMAKE_PREFIX_PATH=<absolute path to libtorch> ..`
