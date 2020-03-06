@@ -96,26 +96,31 @@ std::pair<std::vector<std::string>,std::vector<int>> load_data_from_folder(std::
      */
     std::vector<std::string> list_images;
     std::vector<int> list_labels;
+
+    assert(folders_name.size() != 0);
+
     int label = 0;
     for(auto const& value: folders_name) {
-        std::string base_name = value + "/";
-        // cout << "Reading from: " << base_name << endl;
+        std::string base_name;
+        if(*value.rbegin() != '/') base_name = value + "/";
+        else base_name = value;
+
         DIR* dir;
         struct dirent *ent;
         if((dir = opendir(base_name.c_str())) != NULL) {
             while((ent = readdir(dir)) != NULL) {
                 std::string filename = ent->d_name;
-                if(filename.length() > 4 && filename.substr(filename.length() - 3) == "jpg") {
-                    // cout << base_name + ent->d_name << endl;
-                    // cv::Mat temp = cv::imread(base_name + "/" + ent->d_name, 1);
-                    list_images.push_back(base_name + ent->d_name);
-                    list_labels.push_back(label);
-                }
+
+                std::string file_extension = filename.substr(filename.find("."));
+                assert(file_extension == ".jpg" || file_extension == ".png" || file_extension == ".jpeg");
+
+                list_images.push_back(base_name + ent->d_name);
+                list_labels.push_back(label);
             }
             closedir(dir);
         } else {
             std::cout << "Could not open directory " << base_name.c_str() << std::endl;
-            // return EXIT_FAILURE;
+            exit(-1);
         }
         label += 1;
     }

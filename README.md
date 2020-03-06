@@ -21,7 +21,7 @@ Please note that this is in no way targeted to achieve a certain accuracy, but o
 Note: This project requires OpenCV built from source. Make sure you also have Pillow (to save animation), NumPy, Matplotlib for running files in utils/ folder.
 
 1. Create a build directory: `mkdir build/`
-2. Configure your CMake: `cmake -DCMAKE_PREFIX_PATH=<absolute path to libtorch> ..`
+2. Change the directory path (absolute path) to `libtorch` in CMakeLists.txt file. Then configure using CMake: `cmake ..`
 3. Create an output directory (in the build directory) to store the results & save checkpoints: `mkdir output/`
 4. Build your project: `make`
 5. Execute: `./bin/example/`
