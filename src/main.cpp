@@ -56,8 +56,11 @@ int main(int argc, const char * argv[]) {
   std::vector<std::string> list_images = pair_images_labels.first;
   std::vector<int> list_labels = pair_images_labels.second;
 
+  auto custom_dataset2 = CustomDataset(list_images, list_labels, 64);
+  custom_dataset2.show_batch();
   // Originally 224 size, resize to 64 instead 
   auto custom_dataset = CustomDataset(list_images, list_labels, 64).map(torch::data::transforms::Normalize<>(0.5, 0.5)).map(torch::data::transforms::Stack<>());
+  // custom_dataset.show_batch();
 
   auto data_loader = torch::data::make_data_loader<torch::data::samplers::RandomSampler>(std::move(custom_dataset), torch::data::DataLoaderOptions().batch_size(args.batch_size).workers(2));
 
@@ -67,7 +70,7 @@ int main(int argc, const char * argv[]) {
   }
 
   std::cout << "Using device: " << device << std::endl; 
-  Generator G = Generator(/*nc_=3*/, /*nz_=*/300, /*ngf_=*/64);
+  Generator G = Generator(/*nc_=*/3, /*nz_=*/300, /*ngf_=*/64);
   Discriminator D = Discriminator(/*nc_=*/3, /*ndf_=*/64);
 
   torch::nn::Sequential netG = G.get_module();

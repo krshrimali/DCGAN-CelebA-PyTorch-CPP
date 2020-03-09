@@ -60,6 +60,36 @@ public:
         return {sample_img.clone(), sample_label.clone()};
     };
     
+    // cv::Mat show_batch(int batch_size = 3) {
+    //     /* 
+    //     Visualize batch of data (by default 3x3) 
+    //     */
+    //     // Declare img_array as a pointer
+    //     cv::Mat* img_varray;
+    //     for(int i = 0; i < batch_size; i++) {
+    //         *(img_varray + i) = get(i).at(0);
+    //     }
+    //     cv::Mat out;
+    //     cv::hconcat(img_varray, 3, out);
+    //     return out;
+    // }
+
+    void show_batch(int batch_size = 3) {
+        /* 
+        Visualize batch of data (by default 3x3) 
+        */
+        // Declare img_array as a pointer
+        cv::Mat* img_varray = nullptr;
+        for(int i = 0; i < batch_size; i++) {
+            std::memcpy((void*)get(i).data.data_ptr(), (void*)*(img_varray + i)->data, sizeof(float) * get(i).data.numel());
+        }
+        cv::Mat out;
+        cv::hconcat(img_varray, 3, out);
+        // Save the image as out.jpg
+        cv::imwrite("out.jpg", out);
+        std::cout << "Image saved as out.jpg" << std::endl;
+    }
+
     torch::optional<size_t> size() const override {
         return int(ds_size);
     };
