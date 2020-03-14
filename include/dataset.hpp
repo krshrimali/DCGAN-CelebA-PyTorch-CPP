@@ -79,15 +79,23 @@ public:
         Visualize batch of data (by default 3x3) 
         */
         // Declare img_array as a pointer
-        cv::Mat* img_varray = nullptr;
-        for(int i = 0; i < batch_size; i++) {
-            std::memcpy((void*)get(i).data.data_ptr(), (void*)*(img_varray + i)->data, sizeof(float) * get(i).data.numel());
+        cv::Mat* img_varray = new cv::Mat[batch_size*batch_size];
+        cv::Mat out(256, 256, CV_8UC3);
+        for(int i = 0; i < batch_size*batch_size; i++) {
+	    *(img_varray + i) = cv::Mat::eye(64, 64, CV_8UC3);
+	    torch::Tensor out_tensor = get(i).data.squeeze().detach().permute({1, 2, 0});
+	    out_tensor = out_tensor.to(torch::kU8);
+	    std::cout << out_tensor.sizes() << std::endl;
+	    std::memcpy((img_varray + i)->data, out_tensor.data_ptr(), sizeof(torch::kU8) * out_tensor.numel());
         }
-        cv::Mat out;
-        cv::hconcat(img_varray, 3, out);
-        // Save the image as out.jpg
-        cv::imwrite("out.jpg", out);
-        std::cout << "Image saved as out.jpg" << std::endl;
+	out = *(img_varray + 0);
+        for(int i = 0; i < batch_size * batch_size - 1; i++) {
+	    cv::hconcat(out, *(img_varray + i + 1), out);
+	}
+    // cv::hconcat(img_varray, 9, out);
+    // Save the image as out.jpg
+    cv::imwrite("out.jpg", out);
+    std::cout << "Image saved as out.jpg" << std::endl;
     }
 
     torch::optional<size_t> size() const override {
