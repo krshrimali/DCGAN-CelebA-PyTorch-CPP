@@ -92,9 +92,9 @@ public:
 
     // Visualizes sample at the given index
     void show_sample(int index) {
-        cv::Mat sample_img(64, 64, CV_8UC3);
         torch::Tensor out_tensor_ = get(index).data.squeeze().detach().permute({1, 2, 0});
         out_tensor_ = out_tensor_.clamp(0, 255).to(torch::kCPU).to(torch::kU8);
+        cv::Mat sample_img(out_tensor_.sizes()[0], out_tensor_.sizes()[1], CV_8UC3);
         std::memcpy(sample_img.data, out_tensor_.data_ptr(), sizeof(torch::kU8) * out_tensor_.numel());
         cv::imwrite("sample.jpg", sample_img);
         std::cout << "Image saved as sample.jpg" << std::endl;
