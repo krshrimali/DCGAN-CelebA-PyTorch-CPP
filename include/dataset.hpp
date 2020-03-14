@@ -52,50 +52,44 @@ public:
         labels = process_labels(list_labels);
         ds_size = states.size();
     };
-    
+
     torch::data::Example<> get(size_t index) override {
         /* This should return {torch::Tensor, torch::Tensor} */
         torch::Tensor sample_img = states.at(index);
         torch::Tensor sample_label = labels.at(index);
         return {sample_img.clone(), sample_label.clone()};
     };
-    
-    // cv::Mat show_batch(int batch_size = 3) {
-    //     /* 
-    //     Visualize batch of data (by default 3x3) 
-    //     */
-    //     // Declare img_array as a pointer
-    //     cv::Mat* img_varray;
-    //     for(int i = 0; i < batch_size; i++) {
-    //         *(img_varray + i) = get(i).at(0);
-    //     }
-    //     cv::Mat out;
-    //     cv::hconcat(img_varray, 3, out);
-    //     return out;
-    // }
 
     void show_batch(int batch_size = 3) {
         /* 
         Visualize batch of data (by default 3x3) 
         */
-        // Declare img_array as a pointer
         cv::Mat* img_varray = new cv::Mat[batch_size*batch_size];
-        cv::Mat out(256, 256, CV_8UC3);
         for(int i = 0; i < batch_size*batch_size; i++) {
             *(img_varray + i) = cv::Mat::eye(64, 64, CV_8UC3);
             torch::Tensor out_tensor = get(i).data.squeeze().detach().permute({1, 2, 0});
+            out_tensor = out_tensor.clamp(0, 255);
+            out_tensor = out_tensor.to(torch::kCPU);
             out_tensor = out_tensor.to(torch::kU8);
-            std::cout << out_tensor.sizes() << std::endl;
             std::memcpy((img_varray + i)->data, out_tensor.data_ptr(), sizeof(torch::kU8) * out_tensor.numel());
         }
-        out = *(img_varray + 0);
-        for(int i = 0; i < batch_size * batch_size - 1; i++) {
-        cv::hconcat(out, *(img_varray + i + 1), out);
-    }
-    // cv::hconcat(img_varray, 9, out);
-    // Save the image as out.jpg
-    cv::imwrite("out.jpg", out);
-    std::cout << "Image saved as out.jpg" << std::endl;
+        cv::Mat out(256, 256, CV_8UC3); // TODO: Set channel according to the dataset, instead of manual
+        cv::Mat temp_out(256, 256, CV_8UC3);
+        for(int vconcat_times = 0; vconcat_times < batch_size; vconcat_times++) {
+            cv::cvtColor(*(img_varray + vconcat_times*batch_size), out, cv::COLOR_BGR2RGB);
+            for(int hconcat_times = vconcat_times*batch_size; hconcat_times < (vconcat_times+1)*batch_size - 1; hconcat_times++) {
+                cv::cvtColor(*(img_varray + hconcat_times + 1), *(img_varray + hconcat_times + 1), cv::COLOR_BGR2RGB);
+                cv::hconcat(out, *(img_varray + hconcat_times + 1), out);
+            }
+            if(vconcat_times == 0)
+                temp_out = out;
+            else {
+                cv::vconcat(temp_out, out, temp_out);
+            }
+        }
+        cv::cvtColor(temp_out, temp_out, cv::COLOR_BGR2RGB);
+        cv::imwrite("out.jpg", temp_out);
+        std::cout << "Image saved as out.jpg" << std::endl;
     }
 
     torch::optional<size_t> size() const override {
