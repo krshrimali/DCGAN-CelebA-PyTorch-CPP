@@ -68,9 +68,7 @@ public:
         for(int i = 0; i < batch_size*batch_size; i++) {
             *(img_varray + i) = cv::Mat::eye(64, 64, CV_8UC3);
             torch::Tensor out_tensor = get(i).data.squeeze().detach().permute({1, 2, 0});
-            out_tensor = out_tensor.clamp(0, 255);
-            out_tensor = out_tensor.to(torch::kCPU);
-            out_tensor = out_tensor.to(torch::kU8);
+            out_tensor = out_tensor.clamp(0, 255).to(torch::kCPU).to(torch::kU8);
             std::memcpy((img_varray + i)->data, out_tensor.data_ptr(), sizeof(torch::kU8) * out_tensor.numel());
         }
         cv::Mat out(256, 256, CV_8UC3); // TODO: Set channel according to the dataset, instead of manual
@@ -90,6 +88,15 @@ public:
         cv::cvtColor(temp_out, temp_out, cv::COLOR_BGR2RGB);
         cv::imwrite("out.jpg", temp_out);
         std::cout << "Image saved as out.jpg" << std::endl;
+    }
+
+    void show_sample(int index) {
+        cv::Mat sample_img(64, 64, CV_8UC3);
+        torch::Tensor out_tensor_ = get(index).data.squeeze().detach().permute({1, 2, 0});
+        out_tensor_ = out_tensor_.clamp(0, 255).to(torch::kCPU).to(torch::kU8);
+        std::memcpy(sample_img.data, out_tensor_.data_ptr(), sizeof(torch::kU8) * out_tensor_.numel());
+        cv::imwrite("sample.jpg", sample_img);
+        std::cout << "Image saved as sample.jpg" << std::endl;
     }
 
     torch::optional<size_t> size() const override {
