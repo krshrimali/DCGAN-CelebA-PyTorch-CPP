@@ -18,7 +18,8 @@
 // Function to return image read at location given as type torch::Tensor
 torch::Tensor read_data(std::string location, int resize);
 
-// Function to return label from int (0, 1 for binary and 0, 1, ..., n-1 for n-class classification) as type torch::Tensor
+// Function to return label from int (0, 1 for binary and 0, 1, ..., n-1 for n-class classification) as type 
+// torch::Tensor
 torch::Tensor read_label(int label);
 
 // Function returns vector of tensors (images) read from the list of images in a folder
@@ -33,7 +34,8 @@ std::pair<std::vector<std::string>, std::vector<int>> load_data_from_folder(std:
 
 // Function to train the network on train data
 template<typename Dataloader>
-void train(torch::jit::script::Module net, torch::nn::Linear lin, Dataloader& data_loader, torch::optim::Optimizer& optimizer, size_t dataset_size);
+void train(torch::jit::script::Module net, torch::nn::Linear lin, Dataloader& data_loader, \
+torch::optim::Optimizer& optimizer, size_t dataset_size);
 
 // Function to test the network on test data
 template<typename Dataloader>
@@ -60,18 +62,16 @@ public:
         return {sample_img.clone(), sample_label.clone()};
     };
 
+    // Visualize batch of data (by default 3x3)
     void show_batch(int batch_size = 3) {
-        /* 
-        Visualize batch of data (by default 3x3) 
-        */
         cv::Mat* img_varray = new cv::Mat[batch_size*batch_size];
         for(int i = 0; i < batch_size*batch_size; i++) {
-            *(img_varray + i) = cv::Mat::eye(64, 64, CV_8UC3);
             torch::Tensor out_tensor = get(i).data.squeeze().detach().permute({1, 2, 0});
             out_tensor = out_tensor.clamp(0, 255).to(torch::kCPU).to(torch::kU8);
+            *(img_varray + i) = cv::Mat::eye(out_tensor.sizes()[0], out_tensor.sizes()[1], CV_8UC3);
             std::memcpy((img_varray + i)->data, out_tensor.data_ptr(), sizeof(torch::kU8) * out_tensor.numel());
         }
-        cv::Mat out(256, 256, CV_8UC3); // TODO: Set channel according to the dataset, instead of manual
+        cv::Mat out(256, 256, CV_8UC3);
         cv::Mat temp_out(256, 256, CV_8UC3);
         for(int vconcat_times = 0; vconcat_times < batch_size; vconcat_times++) {
             cv::cvtColor(*(img_varray + vconcat_times*batch_size), out, cv::COLOR_BGR2RGB);
@@ -90,6 +90,7 @@ public:
         std::cout << "Image saved as out.jpg" << std::endl;
     }
 
+    // Visualizes sample at the given index
     void show_sample(int index) {
         cv::Mat sample_img(64, 64, CV_8UC3);
         torch::Tensor out_tensor_ = get(index).data.squeeze().detach().permute({1, 2, 0});
