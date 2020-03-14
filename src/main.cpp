@@ -45,8 +45,8 @@ int ngf = 64;
 int ndf = 64;
 
 int main(int argc, const char * argv[]) {
-  Arguments args = Arguments("/home/kshrimali/Documents/DCGAN-cuda/dcgan-libtorch/data", 2, 64, 64, 3, 300, 64, 64, 5, 0.001, 0.5, 1);
-  std::string images_name = args.dataroot + "/test";
+  Arguments args = Arguments("/home/ubuntu/dcgan/celebA/test", 2, 64, 64, 3, 300, 64, 64, 5, 0.001, 0.5, 1);
+  std::string images_name = args.dataroot + "/img_align_celeba/";
 
   std::vector<std::string> folders_name;
   folders_name.push_back(images_name);
@@ -56,8 +56,13 @@ int main(int argc, const char * argv[]) {
   std::vector<std::string> list_images = pair_images_labels.first;
   std::vector<int> list_labels = pair_images_labels.second;
 
+  // auto custom_dataset2 = CustomDataset(list_images, list_labels, 64);
+  // custom_dataset2.show_batch(4);
   // Originally 224 size, resize to 64 instead 
-  auto custom_dataset = CustomDataset(list_images, list_labels, 64).map(torch::data::transforms::Normalize<>(0.5, 0.5)).map(torch::data::transforms::Stack<>());
+  auto custom_dataset_init = CustomDataset(list_images, list_labels, 64);
+  custom_dataset_init.show_batch(5);
+  custom_dataset_init.show_sample(5);
+  auto custom_dataset = custom_dataset_init.map(torch::data::transforms::Normalize<>(0.5, 0.5)).map(torch::data::transforms::Stack<>());
 
   auto data_loader = torch::data::make_data_loader<torch::data::samplers::RandomSampler>(std::move(custom_dataset), torch::data::DataLoaderOptions().batch_size(args.batch_size).workers(2));
 
@@ -67,7 +72,7 @@ int main(int argc, const char * argv[]) {
   }
 
   std::cout << "Using device: " << device << std::endl; 
-  Generator G = Generator(/*nc_=3*/, /*nz_=*/300, /*ngf_=*/64);
+  Generator G = Generator(/*nc_=*/3, /*nz_=*/300, /*ngf_=*/64);
   Discriminator D = Discriminator(/*nc_=*/3, /*ndf_=*/64);
 
   torch::nn::Sequential netG = G.get_module();
