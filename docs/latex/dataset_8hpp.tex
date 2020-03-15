@@ -1,0 +1,97 @@
+\hypertarget{dataset_8hpp}{}\doxysection{include/dataset.hpp File Reference}
+\label{dataset_8hpp}\index{include/dataset.hpp@{include/dataset.hpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$opencv2/opencv.\+hpp$>$}\newline
+{\ttfamily \#include $<$torch/torch.\+h$>$}\newline
+{\ttfamily \#include $<$dirent.\+h$>$}\newline
+{\ttfamily \#include $<$torch/script.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_custom_dataset}{Custom\+Dataset}}
+\begin{DoxyCompactList}\small\item\em This class allows loading a Custom Dataset in Libtorch. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+torch\+::\+Tensor \mbox{\hyperlink{dataset_8hpp_aef61d3c7921df9355e237c6776c0fb16}{read\+\_\+data}} (std\+::string location, int resize)
+\begin{DoxyCompactList}\small\item\em Function to return image read at location given as type torch\+::\+Tensor. \end{DoxyCompactList}\item 
+torch\+::\+Tensor \mbox{\hyperlink{dataset_8hpp_a2864d9dfa2089a9384ae93d0dfea441d}{read\+\_\+label}} (int label)
+\begin{DoxyCompactList}\small\item\em Function to return label from int (0, 1 for binary and 0, 1, ..., n-\/1 for n-\/class classification) as type torch\+::\+Tensor. \end{DoxyCompactList}\item 
+std\+::vector$<$ torch\+::\+Tensor $>$ \mbox{\hyperlink{dataset_8hpp_a7cf0d115aac02d3a39a9de6d5119d3ee}{process\+\_\+images}} (std\+::vector$<$ std\+::string $>$ list\+\_\+images, int resize)
+\begin{DoxyCompactList}\small\item\em Function returns vector of tensors (images) read from the list of images in a folder. \end{DoxyCompactList}\item 
+std\+::vector$<$ torch\+::\+Tensor $>$ \mbox{\hyperlink{dataset_8hpp_a9a8bb85eaabcc16f265f0f08a0017a75}{process\+\_\+labels}} (std\+::vector$<$ int $>$ list\+\_\+labels)
+\begin{DoxyCompactList}\small\item\em Function returns vector of tensors (labels) read from the list of labels. \end{DoxyCompactList}\item 
+std\+::pair$<$ std\+::vector$<$ std\+::string $>$, std\+::vector$<$ int $>$ $>$ \mbox{\hyperlink{dataset_8hpp_a5bf180f30494c5c129a3f604bb3001f9}{load\+\_\+data\+\_\+from\+\_\+folder}} (std\+::vector$<$ std\+::string $>$ folders\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Function to load data from given folder(s) name(s) (folders\+\_\+name) Returns pair of vectors of string (image locations) and int (respective labels) \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Dataloader $>$ }\\void \mbox{\hyperlink{dataset_8hpp_af1d1b55d5914283b3b61b399b929d195}{train}} (torch\+::jit\+::script\+::\+Module net, torch\+::nn\+::\+Linear lin, Dataloader \&data\+\_\+loader, torch\+::optim\+::\+Optimizer \&optimizer, size\+\_\+t dataset\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Function to train the network on train data. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Dataloader $>$ }\\void \mbox{\hyperlink{dataset_8hpp_aa0363770f5b4b7c65ffacef0b7da7958}{test}} (torch\+::jit\+::script\+::\+Module network, torch\+::nn\+::\+Linear lin, Dataloader \&loader, size\+\_\+t data\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Function to test the network on test data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{dataset_8hpp_a5bf180f30494c5c129a3f604bb3001f9}\label{dataset_8hpp_a5bf180f30494c5c129a3f604bb3001f9}} 
+\index{dataset.hpp@{dataset.hpp}!load\_data\_from\_folder@{load\_data\_from\_folder}}
+\index{load\_data\_from\_folder@{load\_data\_from\_folder}!dataset.hpp@{dataset.hpp}}
+\doxysubsubsection{\texorpdfstring{load\_data\_from\_folder()}{load\_data\_from\_folder()}}
+{\footnotesize\ttfamily std\+::pair$<$std\+::vector$<$std\+::string$>$, std\+::vector$<$int$>$ $>$ load\+\_\+data\+\_\+from\+\_\+folder (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{folders\+\_\+name }\end{DoxyParamCaption})}
+
+Function to load data from given folder(s) name(s) (folders\+\_\+name) Returns pair of vectors of string (image locations) and int (respective labels)
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item folders\+\_\+name (std\+::vector$<$std\+::string$>$ type) -\/ name of folders as a vector to load data from 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8hpp_a7cf0d115aac02d3a39a9de6d5119d3ee}\label{dataset_8hpp_a7cf0d115aac02d3a39a9de6d5119d3ee}} 
+\index{dataset.hpp@{dataset.hpp}!process\_images@{process\_images}}
+\index{process\_images@{process\_images}!dataset.hpp@{dataset.hpp}}
+\doxysubsubsection{\texorpdfstring{process\_images()}{process\_images()}}
+{\footnotesize\ttfamily std\+::vector$<$torch\+::\+Tensor$>$ process\+\_\+images (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{list\+\_\+images,  }\item[{int}]{resize = {\ttfamily 224} }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item list\+\_\+images (std\+::vector$<$std\+::string$>$ type) -\/ list of image paths in a folder to be read
+\item resize (int type) -\/ argument for resizing each image 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8hpp_a9a8bb85eaabcc16f265f0f08a0017a75}\label{dataset_8hpp_a9a8bb85eaabcc16f265f0f08a0017a75}} 
+\index{dataset.hpp@{dataset.hpp}!process\_labels@{process\_labels}}
+\index{process\_labels@{process\_labels}!dataset.hpp@{dataset.hpp}}
+\doxysubsubsection{\texorpdfstring{process\_labels()}{process\_labels()}}
+{\footnotesize\ttfamily std\+::vector$<$torch\+::\+Tensor$>$ process\+\_\+labels (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$}]{list\+\_\+labels }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item list\+\_\+labels (std\+::vector$<$int$>$ list\+\_\+labels) -\/ 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8hpp_aef61d3c7921df9355e237c6776c0fb16}\label{dataset_8hpp_aef61d3c7921df9355e237c6776c0fb16}} 
+\index{dataset.hpp@{dataset.hpp}!read\_data@{read\_data}}
+\index{read\_data@{read\_data}!dataset.hpp@{dataset.hpp}}
+\doxysubsubsection{\texorpdfstring{read\_data()}{read\_data()}}
+{\footnotesize\ttfamily torch\+::\+Tensor read\+\_\+data (\begin{DoxyParamCaption}\item[{std\+::string}]{location,  }\item[{int}]{resize = {\ttfamily 224} }\end{DoxyParamCaption})}
+
+Function to return image read at location given as type torch\+::\+Tensor.
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item location (std\+::string type) -\/ required to load image from the location
+\item resize (int type) -\/ required to resize an image 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8hpp_a2864d9dfa2089a9384ae93d0dfea441d}\label{dataset_8hpp_a2864d9dfa2089a9384ae93d0dfea441d}} 
+\index{dataset.hpp@{dataset.hpp}!read\_label@{read\_label}}
+\index{read\_label@{read\_label}!dataset.hpp@{dataset.hpp}}
+\doxysubsubsection{\texorpdfstring{read\_label()}{read\_label()}}
+{\footnotesize\ttfamily torch\+::\+Tensor read\+\_\+label (\begin{DoxyParamCaption}\item[{int}]{label }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item label (int type) -\/ required to convert int to tensor 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8hpp_aa0363770f5b4b7c65ffacef0b7da7958}\label{dataset_8hpp_aa0363770f5b4b7c65ffacef0b7da7958}} 
+\index{dataset.hpp@{dataset.hpp}!test@{test}}
+\index{test@{test}!dataset.hpp@{dataset.hpp}}
+\doxysubsubsection{\texorpdfstring{test()}{test()}}
+{\footnotesize\ttfamily template$<$typename Dataloader $>$ \\
+void test (\begin{DoxyParamCaption}\item[{torch\+::jit\+::script\+::\+Module}]{network,  }\item[{torch\+::nn\+::\+Linear}]{lin,  }\item[{Dataloader \&}]{loader,  }\item[{size\+\_\+t}]{data\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{dataset_8hpp_af1d1b55d5914283b3b61b399b929d195}\label{dataset_8hpp_af1d1b55d5914283b3b61b399b929d195}} 
+\index{dataset.hpp@{dataset.hpp}!train@{train}}
+\index{train@{train}!dataset.hpp@{dataset.hpp}}
+\doxysubsubsection{\texorpdfstring{train()}{train()}}
+{\footnotesize\ttfamily template$<$typename Dataloader $>$ \\
+void train (\begin{DoxyParamCaption}\item[{torch\+::jit\+::script\+::\+Module}]{net,  }\item[{torch\+::nn\+::\+Linear}]{lin,  }\item[{Dataloader \&}]{data\+\_\+loader,  }\item[{torch\+::optim\+::\+Optimizer \&}]{optimizer,  }\item[{size\+\_\+t}]{dataset\+\_\+size }\end{DoxyParamCaption})}
+

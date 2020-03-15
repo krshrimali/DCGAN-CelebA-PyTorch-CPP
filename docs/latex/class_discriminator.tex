@@ -1,0 +1,51 @@
+\hypertarget{class_discriminator}{}\doxysection{Discriminator Class Reference}
+\label{class_discriminator}\index{Discriminator@{Discriminator}}
+
+
+{\ttfamily \#include $<$network.\+hpp$>$}
+
+Inheritance diagram for Discriminator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_discriminator}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_discriminator_a620390fa204ecdadda5ec0594bc2b6d7}{Discriminator}} (int nc\+\_\+=3, int ngf\+\_\+=64, int ndf\+\_\+=64)
+\item 
+torch\+::nn\+::\+Sequential \mbox{\hyperlink{class_discriminator_afbfe65af159ae6c8b74f972b9fe25471}{get\+\_\+module}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A quick note on \mbox{\hyperlink{class_discriminator}{Discriminator}} in D\+C\+G\+AN\+:
+\begin{DoxyItemize}
+\item Spatial Pooling Layers such as Max\+Pool layers were replaced with Strided Convolutions.
+\item Use Batch\+Norm in the \mbox{\hyperlink{class_discriminator}{Discriminator}}.
+\item Remove FC layers for deeper architectures.
+\item Use Leaky\+Re\+LU activation function for all the layers in the \mbox{\hyperlink{class_discriminator}{Discriminator}}. 
+\end{DoxyItemize}
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_discriminator_a620390fa204ecdadda5ec0594bc2b6d7}\label{class_discriminator_a620390fa204ecdadda5ec0594bc2b6d7}} 
+\index{Discriminator@{Discriminator}!Discriminator@{Discriminator}}
+\index{Discriminator@{Discriminator}!Discriminator@{Discriminator}}
+\doxysubsubsection{\texorpdfstring{Discriminator()}{Discriminator()}}
+{\footnotesize\ttfamily Discriminator\+::\+Discriminator (\begin{DoxyParamCaption}\item[{int}]{nc\+\_\+ = {\ttfamily 3},  }\item[{int}]{ngf\+\_\+ = {\ttfamily 64},  }\item[{int}]{ndf\+\_\+ = {\ttfamily 64} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_discriminator_afbfe65af159ae6c8b74f972b9fe25471}\label{class_discriminator_afbfe65af159ae6c8b74f972b9fe25471}} 
+\index{Discriminator@{Discriminator}!get\_module@{get\_module}}
+\index{get\_module@{get\_module}!Discriminator@{Discriminator}}
+\doxysubsubsection{\texorpdfstring{get\_module()}{get\_module()}}
+{\footnotesize\ttfamily torch\+::nn\+::\+Sequential Discriminator\+::get\+\_\+module (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{network_8hpp}{network.\+hpp}}\end{DoxyCompactItemize}

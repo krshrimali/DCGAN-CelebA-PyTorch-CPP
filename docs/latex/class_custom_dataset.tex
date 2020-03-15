@@ -1,0 +1,89 @@
+\hypertarget{class_custom_dataset}{}\doxysection{Custom\+Dataset Class Reference}
+\label{class_custom_dataset}\index{CustomDataset@{CustomDataset}}
+
+
+This class allows loading a Custom Dataset in Libtorch.  
+
+
+
+
+{\ttfamily \#include $<$dataset.\+hpp$>$}
+
+Inheritance diagram for Custom\+Dataset\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_custom_dataset}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_custom_dataset_aa2cc889883c4002c3fbcd8b161f7bd99}{Custom\+Dataset}} (std\+::vector$<$ std\+::string $>$ list\+\_\+images, std\+::vector$<$ int $>$ list\+\_\+labels, int resize=224)
+\item 
+torch\+::data\+::\+Example \mbox{\hyperlink{class_custom_dataset_a2e909fb72e2772a71b6e887b0a4204fd}{get}} (size\+\_\+t index) override
+\item 
+void \mbox{\hyperlink{class_custom_dataset_aa817cc13aa4d68fc3fc1fd1dfda9dde0}{show\+\_\+batch}} (int grid\+\_\+size=3)
+\begin{DoxyCompactList}\small\item\em Visualize batch of data (by default 3x3) \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_custom_dataset_a79757c5ae4817e071856167843377693}{show\+\_\+sample}} (int index)
+\item 
+torch\+::optional$<$ size\+\_\+t $>$ \mbox{\hyperlink{class_custom_dataset_a3e51c067a100b90b0716ac7b0641ebcb}{size}} () const override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Example Usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{std::pair<std::vector<std::string>, std::vector<int>> pair\_images\_labels = \mbox{\hyperlink{dataset_8hpp_a5bf180f30494c5c129a3f604bb3001f9}{load\_data\_from\_folder}}(folders\_name);}
+\DoxyCodeLine{std::vector<std::string> list\_images = pair\_images\_labels.first;}
+\DoxyCodeLine{std::vector<int> list\_labels = pair\_images\_labels.second;}
+\DoxyCodeLine{\textcolor{keyword}{auto} custom\_dataset = \mbox{\hyperlink{class_custom_dataset_aa2cc889883c4002c3fbcd8b161f7bd99}{CustomDataset}}(list\_images, list\_labels, 64);}
+\end{DoxyCode}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_custom_dataset_aa2cc889883c4002c3fbcd8b161f7bd99}\label{class_custom_dataset_aa2cc889883c4002c3fbcd8b161f7bd99}} 
+\index{CustomDataset@{CustomDataset}!CustomDataset@{CustomDataset}}
+\index{CustomDataset@{CustomDataset}!CustomDataset@{CustomDataset}}
+\doxysubsubsection{\texorpdfstring{CustomDataset()}{CustomDataset()}}
+{\footnotesize\ttfamily Custom\+Dataset\+::\+Custom\+Dataset (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{list\+\_\+images,  }\item[{std\+::vector$<$ int $>$}]{list\+\_\+labels,  }\item[{int}]{resize = {\ttfamily 224} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_custom_dataset_a2e909fb72e2772a71b6e887b0a4204fd}\label{class_custom_dataset_a2e909fb72e2772a71b6e887b0a4204fd}} 
+\index{CustomDataset@{CustomDataset}!get@{get}}
+\index{get@{get}!CustomDataset@{CustomDataset}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily torch\+::data\+::\+Example Custom\+Dataset\+::get (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+This should return \{torch\+::\+Tensor, torch\+::\+Tensor\}
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item index (type\+: size\+\_\+t) 
+\end{DoxyEnumerate}\mbox{\Hypertarget{class_custom_dataset_aa817cc13aa4d68fc3fc1fd1dfda9dde0}\label{class_custom_dataset_aa817cc13aa4d68fc3fc1fd1dfda9dde0}} 
+\index{CustomDataset@{CustomDataset}!show\_batch@{show\_batch}}
+\index{show\_batch@{show\_batch}!CustomDataset@{CustomDataset}}
+\doxysubsubsection{\texorpdfstring{show\_batch()}{show\_batch()}}
+{\footnotesize\ttfamily void Custom\+Dataset\+::show\+\_\+batch (\begin{DoxyParamCaption}\item[{int}]{grid\+\_\+size = {\ttfamily 3} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item grid\+\_\+size (type\+: int, default = 3) Saves image in the build/ folder (name\+: out.\+jpg) 
+\end{DoxyEnumerate}\mbox{\Hypertarget{class_custom_dataset_a79757c5ae4817e071856167843377693}\label{class_custom_dataset_a79757c5ae4817e071856167843377693}} 
+\index{CustomDataset@{CustomDataset}!show\_sample@{show\_sample}}
+\index{show\_sample@{show\_sample}!CustomDataset@{CustomDataset}}
+\doxysubsubsection{\texorpdfstring{show\_sample()}{show\_sample()}}
+{\footnotesize\ttfamily void Custom\+Dataset\+::show\+\_\+sample (\begin{DoxyParamCaption}\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Visualizes sample at the given index \mbox{\Hypertarget{class_custom_dataset_a3e51c067a100b90b0716ac7b0641ebcb}\label{class_custom_dataset_a3e51c067a100b90b0716ac7b0641ebcb}} 
+\index{CustomDataset@{CustomDataset}!size@{size}}
+\index{size@{size}!CustomDataset@{CustomDataset}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily torch\+::optional$<$size\+\_\+t$>$ Custom\+Dataset\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}}
+
+This function returns size of the dataset 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{dataset_8hpp}{dataset.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,45 @@
+\hypertarget{class_generator}{}\doxysection{Generator Class Reference}
+\label{class_generator}\index{Generator@{Generator}}
+
+
+{\ttfamily \#include $<$network.\+hpp$>$}
+
+Inheritance diagram for Generator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_generator}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_generator_a47db6863499755e46efffa665032a2d3}{Generator}} (int nc\+\_\+=3, int nz\+\_\+=100, int ngf\+\_\+=64)
+\item 
+torch\+::nn\+::\+Sequential \mbox{\hyperlink{class_generator_a996884c7c4cbdd3a61f8a14b8ff3d944}{get\+\_\+module}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_generator}{Generator}} consists\+: Conv\+Transpose2d layers, Batch\+Norm layers, Re\+LU Activations Input to \mbox{\hyperlink{class_generator}{Generator}}\+: latent vector, z, drawn from standard normal distribution Output is 3x64x64 R\+GB Image 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_generator_a47db6863499755e46efffa665032a2d3}\label{class_generator_a47db6863499755e46efffa665032a2d3}} 
+\index{Generator@{Generator}!Generator@{Generator}}
+\index{Generator@{Generator}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{Generator()}{Generator()}}
+{\footnotesize\ttfamily Generator\+::\+Generator (\begin{DoxyParamCaption}\item[{int}]{nc\+\_\+ = {\ttfamily 3},  }\item[{int}]{nz\+\_\+ = {\ttfamily 100},  }\item[{int}]{ngf\+\_\+ = {\ttfamily 64} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_generator_a996884c7c4cbdd3a61f8a14b8ff3d944}\label{class_generator_a996884c7c4cbdd3a61f8a14b8ff3d944}} 
+\index{Generator@{Generator}!get\_module@{get\_module}}
+\index{get\_module@{get\_module}!Generator@{Generator}}
+\doxysubsubsection{\texorpdfstring{get\_module()}{get\_module()}}
+{\footnotesize\ttfamily torch\+::nn\+::\+Sequential Generator\+::get\+\_\+module (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{network_8hpp}{network.\+hpp}}\end{DoxyCompactItemize}
