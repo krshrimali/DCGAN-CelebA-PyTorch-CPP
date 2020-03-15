@@ -1,0 +1,71 @@
+\hypertarget{dataset_8cpp}{}\doxysection{src/dataset.cpp File Reference}
+\label{dataset_8cpp}\index{src/dataset.cpp@{src/dataset.cpp}}
+{\ttfamily \#include \char`\"{}dataset.\+hpp\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+torch\+::\+Tensor \mbox{\hyperlink{dataset_8cpp_ae57ccf37d1d714021a03c9d2bb30841b}{read\+\_\+data}} (std\+::string location, int resize=224)
+\begin{DoxyCompactList}\small\item\em Function to return image read at location given as type torch\+::\+Tensor. Resizes image to (224, 224, 3) \end{DoxyCompactList}\item 
+torch\+::\+Tensor \mbox{\hyperlink{dataset_8cpp_a2864d9dfa2089a9384ae93d0dfea441d}{read\+\_\+label}} (int label)
+\begin{DoxyCompactList}\small\item\em Function to return label from int (0, 1 for binary and 0, 1, ..., n-\/1 for n-\/class classification) as type torch\+::\+Tensor. \end{DoxyCompactList}\item 
+std\+::vector$<$ torch\+::\+Tensor $>$ \mbox{\hyperlink{dataset_8cpp_a05504348b91b04fd0a61f4d6b4fedfc1}{process\+\_\+images}} (std\+::vector$<$ std\+::string $>$ list\+\_\+images, int resize=224)
+\begin{DoxyCompactList}\small\item\em Function returns vector of tensors (images) read from the list of images in a folder. \end{DoxyCompactList}\item 
+std\+::vector$<$ torch\+::\+Tensor $>$ \mbox{\hyperlink{dataset_8cpp_a9a8bb85eaabcc16f265f0f08a0017a75}{process\+\_\+labels}} (std\+::vector$<$ int $>$ list\+\_\+labels)
+\begin{DoxyCompactList}\small\item\em Function returns vector of tensors (labels) read from the list of labels. \end{DoxyCompactList}\item 
+std\+::pair$<$ std\+::vector$<$ std\+::string $>$, std\+::vector$<$ int $>$ $>$ \mbox{\hyperlink{dataset_8cpp_aaff82c2dcda300f271b29d482a35f4fa}{load\+\_\+data\+\_\+from\+\_\+folder}} (std\+::vector$<$ std\+::string $>$ folders\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Function to load data from given folder(s) name(s) (folders\+\_\+name). Returns pair of vectors of string (image locations) and int (respective labels) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{dataset_8cpp_aaff82c2dcda300f271b29d482a35f4fa}\label{dataset_8cpp_aaff82c2dcda300f271b29d482a35f4fa}} 
+\index{dataset.cpp@{dataset.cpp}!load\_data\_from\_folder@{load\_data\_from\_folder}}
+\index{load\_data\_from\_folder@{load\_data\_from\_folder}!dataset.cpp@{dataset.cpp}}
+\doxysubsubsection{\texorpdfstring{load\_data\_from\_folder()}{load\_data\_from\_folder()}}
+{\footnotesize\ttfamily std\+::pair$<$std\+::vector$<$std\+::string$>$,std\+::vector$<$int$>$ $>$ load\+\_\+data\+\_\+from\+\_\+folder (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{folders\+\_\+name }\end{DoxyParamCaption})}
+
+Function to load data from given folder(s) name(s) (folders\+\_\+name) Returns pair of vectors of string (image locations) and int (respective labels)
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item folders\+\_\+name (std\+::vector$<$std\+::string$>$ type) -\/ name of folders as a vector to load data from 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8cpp_a05504348b91b04fd0a61f4d6b4fedfc1}\label{dataset_8cpp_a05504348b91b04fd0a61f4d6b4fedfc1}} 
+\index{dataset.cpp@{dataset.cpp}!process\_images@{process\_images}}
+\index{process\_images@{process\_images}!dataset.cpp@{dataset.cpp}}
+\doxysubsubsection{\texorpdfstring{process\_images()}{process\_images()}}
+{\footnotesize\ttfamily std\+::vector$<$torch\+::\+Tensor$>$ process\+\_\+images (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{list\+\_\+images,  }\item[{int}]{resize = {\ttfamily 224} }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item list\+\_\+images (std\+::vector$<$std\+::string$>$ type) -\/ list of image paths in a folder to be read
+\item resize (int type) -\/ argument for resizing each image 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8cpp_a9a8bb85eaabcc16f265f0f08a0017a75}\label{dataset_8cpp_a9a8bb85eaabcc16f265f0f08a0017a75}} 
+\index{dataset.cpp@{dataset.cpp}!process\_labels@{process\_labels}}
+\index{process\_labels@{process\_labels}!dataset.cpp@{dataset.cpp}}
+\doxysubsubsection{\texorpdfstring{process\_labels()}{process\_labels()}}
+{\footnotesize\ttfamily std\+::vector$<$torch\+::\+Tensor$>$ process\+\_\+labels (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$}]{list\+\_\+labels }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item list\+\_\+labels (std\+::vector$<$int$>$ list\+\_\+labels) -\/ 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8cpp_ae57ccf37d1d714021a03c9d2bb30841b}\label{dataset_8cpp_ae57ccf37d1d714021a03c9d2bb30841b}} 
+\index{dataset.cpp@{dataset.cpp}!read\_data@{read\_data}}
+\index{read\_data@{read\_data}!dataset.cpp@{dataset.cpp}}
+\doxysubsubsection{\texorpdfstring{read\_data()}{read\_data()}}
+{\footnotesize\ttfamily torch\+::\+Tensor read\+\_\+data (\begin{DoxyParamCaption}\item[{std\+::string}]{location,  }\item[{int}]{resize = {\ttfamily 224} }\end{DoxyParamCaption})}
+
+Function to return image read at location given as type torch\+::\+Tensor.
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item location (std\+::string type) -\/ required to load image from the location
+\item resize (int type) -\/ required to resize an image 
+\end{DoxyEnumerate}\mbox{\Hypertarget{dataset_8cpp_a2864d9dfa2089a9384ae93d0dfea441d}\label{dataset_8cpp_a2864d9dfa2089a9384ae93d0dfea441d}} 
+\index{dataset.cpp@{dataset.cpp}!read\_label@{read\_label}}
+\index{read\_label@{read\_label}!dataset.cpp@{dataset.cpp}}
+\doxysubsubsection{\texorpdfstring{read\_label()}{read\_label()}}
+{\footnotesize\ttfamily torch\+::\+Tensor read\+\_\+label (\begin{DoxyParamCaption}\item[{int}]{label }\end{DoxyParamCaption})}
+
+\mbox{\hyperlink{class_arguments}{Arguments}}\+:
+\begin{DoxyEnumerate}
+\item label (int type) -\/ required to convert int to tensor 
+\end{DoxyEnumerate}

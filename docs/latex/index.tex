@@ -1,0 +1,48 @@
+D\+C\+G\+AN Implementation (on CelebA dataset) using Py\+Torch C++ Frontend A\+PI (Libtorch)
+
+
+\begin{DoxyItemize}
+\item Training Code location\+: {\ttfamily \mbox{\hyperlink{main_8cpp}{src/main.\+cpp}}}
+\item \mbox{\hyperlink{class_generator}{Generator}} and \mbox{\hyperlink{class_discriminator}{Discriminator}} Definition\+: {\ttfamily \mbox{\hyperlink{network_8hpp}{include/network.\+hpp}}}
+\item Dataset Class\+: {\ttfamily \mbox{\hyperlink{dataset_8hpp}{include/dataset.\+hpp}}} and {\ttfamily \mbox{\hyperlink{dataset_8cpp}{src/dataset.\+cpp}}}
+\item Tested on Libtorch Version\+: Stable 1.\+4.\+0 (cxx11 A\+BI) with and without C\+U\+DA (10.\+1), Linux, Open\+CV 4.\+1.\+0
+\end{DoxyItemize}
+
+How is this different from dcgan sample of Py\+Torch?
+
+
+\begin{DoxyEnumerate}
+\item This loads a custom dataset (which is not in the dataset class of Py\+Torch) -\/ CelebA.
+\item Since some users prefer using Sequential Modules, so this example uses Sequential Module.
+\end{DoxyEnumerate}
+
+Utility Functions (to visualize images \& create animation), and architecture is inherited from the Py\+Torch Example on D\+C\+G\+AN (\href{https://github.com/pytorch/examples/blob/master/cpp/dcgan/}{\texttt{ https\+://github.\+com/pytorch/examples/blob/master/cpp/dcgan/}}).
+
+Please note that this is in no way targeted to achieve a certain accuracy, but only focuses on creating an example template for D\+C\+G\+AN using Libtorch on CelebA Dataset.\hypertarget{index_autotoc_md1}{}\doxysection{Steps to Follow}\label{index_autotoc_md1}
+Note\+: This project requires Open\+CV built from source. Make sure you also have Pillow (to save animation), Num\+Py, Matplotlib for running files in utils/ folder.
+
+
+\begin{DoxyEnumerate}
+\item Create a build directory\+: {\ttfamily mkdir build/}
+\item Change the directory path (absolute path) to {\ttfamily libtorch} in C\+Make\+Lists.\+txt file. Then configure using C\+Make\+: {\ttfamily cmake ..}
+\item Create an output directory (in the build directory) to store the results \& save checkpoints\+: {\ttfamily mkdir output/}
+\item Build your project\+: {\ttfamily make}
+\item Execute\+: {\ttfamily ./bin/example/}
+\item The saved checkpoints and outputs will be at {\ttfamily output/} directory
+\item To visualize, go back to the main directory\+: {\ttfamily cd ../}
+\item Execute\+: {\ttfamily python3 utils/display\+\_\+samples.\+py}
+\item The outputs will be stores in {\ttfamily build/output/output\+\_\+images/} directory
+\item If you want to make an animation, run\+: {\ttfamily python3 utils/visualize.\+py} and it will save the animation for you in {\ttfamily build/output/output\+\_\+animation/} directory
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md2}{}\doxysection{Blog}\label{index_autotoc_md2}
+Find more about D\+C\+G\+AN on my blogs here\+:
+
+
+\begin{DoxyEnumerate}
+\item \href{https://krshrimali.github.io/DCGAN-using-PyTorch-CPP/}{\texttt{ https\+://krshrimali.\+github.\+io/\+D\+C\+G\+A\+N-\/using-\/\+Py\+Torch-\/\+C\+P\+P/}}
+\item \href{https://krshrimali.github.io/DCGAN-using-PyTorch-CPP-Part-2/}{\texttt{ https\+://krshrimali.\+github.\+io/\+D\+C\+G\+A\+N-\/using-\/\+Py\+Torch-\/\+C\+P\+P-\/\+Part-\/2/}}
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md3}{}\doxysection{Results}\label{index_autotoc_md3}
+This is the output from random noise (batch of) images after $\sim$10 epochs of training\+:
+
+
+
+Happy learning! 
