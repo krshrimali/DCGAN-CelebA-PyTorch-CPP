@@ -46,6 +46,14 @@ This is the output from random noise (batch of) images after ~10 epochs of train
 
 Happy learning!
 
-# TODOs
+## TODOs
 
-// Add TODOs here
+1. https://github.com/BuffetCodes/DCGAN-CelebA-PyTorch-CPP/issues/9
+2. https://github.com/BuffetCodes/DCGAN-CelebA-PyTorch-CPP/issues/8
+3. https://github.com/BuffetCodes/DCGAN-CelebA-PyTorch-CPP/issues/6
+
+## Contribution
+
+Note: _We believe, contributing to an open source project is the best way to learn. To help others learn, we decided to add `open source` label to the issues we think can be resolved by others. This will benefit us both._
+
+If you are eager to contribute to this project, pick up an issue with <a href="https://github.com/BuffetCodes/DCGAN-CelebA-PyTorch-CPP/labels/open%20source">open source</a> label. Before you start working on it, make sure you create an issue and cc to any of the main contributors (@krshrimali / @HimanshuSinghGH), and let us know that you are interested. We do not want to waste your efforts in case someone else is already working on it. Thank you!
