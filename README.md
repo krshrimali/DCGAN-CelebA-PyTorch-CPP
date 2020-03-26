@@ -45,3 +45,7 @@ This is the output from random noise (batch of) images after ~10 epochs of train
 <img src="images/dcgan-output.png"/>
 
 Happy learning!
+
+# TODOs
+
+// Add TODOs here
