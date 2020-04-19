@@ -1,5 +1,12 @@
 import sys, os, shutil, time
 
+def isImage(filename):
+    """
+    Returns True if filename is an image extension, else False
+    Supported extensions: JPG, JPEG, PNG
+    """
+    return True in [True if extension in filename else False for extension in [".jpg", ".jpeg", ".png"]]
+
 def get_files(folder_path = None):
     """
     This function returns list of files in the given folder path
@@ -18,7 +25,7 @@ def get_files(folder_path = None):
         print("Exiting")
         sys.exit(0)
 
-    list_files = [folder_path + "/" + filename if "/" in folder_path else folder_path + filename for filename in os.listdir(folder_path)]
+    list_files = [folder_path + "/" + filename if ("/" in folder_path and isImage(filename)) else folder_path + filename if isImage(filename) else continue for filename in os.listdir(folder_path)]
     return list_files
 
 def split_dataset(list_files, train = None, test = None):
