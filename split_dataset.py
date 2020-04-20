@@ -25,7 +25,8 @@ def get_files(folder_path = None):
         print("Exiting")
         sys.exit(0)
 
-    list_files = [folder_path + "/" + filename if ("/" in folder_path and isImage(filename)) else folder_path + filename if isImage(filename) else continue for filename in os.listdir(folder_path)]
+    list_files = [folder_path + "/" + filename if folder_path[-1] == "/" and isImage(filename) else folder_path + filename if isImage(filename) else -1 for filename in os.listdir(folder_path)]
+    list_files = [x for x in list_files if x != -1]
     return list_files
 
 def split_dataset(list_files, train = None, test = None):
